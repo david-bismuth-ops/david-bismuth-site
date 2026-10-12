@@ -22,6 +22,7 @@
     <a class="h-role ul" href="../projects/">Composer &amp; Sound Designer</a>
     <a class="h-name ul" href="../">David Bismuth</a>
     <nav class="h-nav" aria-label="Sections">
+      <button class="sound-toggle ul" type="button" aria-pressed="false" title="Hear the music when hovering a film"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="sound-state">sound off</span></button>
       <a class="ul" href="./" aria-current="page">games</a>
       <a class="ul" href="../about/">about</a>
     </nav>
@@ -34,8 +35,10 @@
     <!-- Un jeu = une ligne <article class="game"> : le média à gauche, le texte à droite -->
     <article class="game">
       <a class="tile" href="../media/grab-grab-full.mp4" data-film="../media/grab-grab-full.mp4" data-credit="gameplay + live Wwise session" data-role="Music, SFX, mix &amp; Wwise" aria-label="GRAB GRAB — gameplay and live Wwise session">
-        <video data-preview src="../media/grab-grab.mp4" poster="../media/grab-grab.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">GRAB GRAB</span>
+        <span class="tile-media">
+          <video data-preview src="../media/grab-grab.mp4" poster="../media/grab-grab.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">GRAB GRAB</span>
+        </span>
       </a>
       <div class="game-text">
         <h2>GRAB GRAB</h2>

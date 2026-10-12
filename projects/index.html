@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Projects — David Bismuth | Composer | Sound Designer | Mixer</title>
-  <meta name="description" content="Music and sound design for Loro Piana, Maison Margiela, Kenzo × Asics, Purple, Wethenew, Mellerio and Sandro.">
+  <meta name="description" content="Music and sound design for Loro Piana, Maison Margiela, Cartier, Kenzo × Asics, Vogue, Lacoste, Uniqlo, Sandro, Mellerio, Purple, Wethenew and Coltesse, plus selected tracks.">
   <link rel="canonical" href="https://david-bismuth.com/projects/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="David Bismuth">
@@ -22,6 +22,7 @@
     <a class="h-role ul" href="./" aria-current="page">Composer &amp; Sound Designer</a>
     <a class="h-name ul" href="../">David Bismuth</a>
     <nav class="h-nav" aria-label="Sections">
+      <button class="sound-toggle ul" type="button" aria-pressed="false" title="Hear the music when hovering a film"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="sound-state">sound off</span></button>
       <a class="ul" href="../games/">games</a>
       <a class="ul" href="../about/">about</a>
     </nav>
@@ -31,49 +32,157 @@
     <h1 class="visually-hidden">Projects</h1>
     <div class="rule rule-top" aria-hidden="true"></div>
 
+    <!-- Showreel : data-chapters = [début en secondes, nom affiché] -->
+    <section class="reel" aria-label="Showreel">
+      <a class="tile tile-reel" href="../media/showreel-full.mp4" data-film="../media/showreel-full.mp4" data-role="Selected work" data-chapters='[[0.0, "Loro Piana — SS25"], [6.0, "Kenzo × Asics"], [12.0, "Purple"], [18.0, "GRAB GRAB — gameplay + Wwise"], [24.0, "Mellerio — Talisman"], [30.0, "Wethenew"], [36.0, "Maison Margiela"], [42.0, "Loro Piana — SS24"], [48.0, "Uniqlo — Opéra"], [54.0, "Sandro"], [60.0, "Klara — short film"]]' aria-label="Showreel">
+        <span class="tile-media" data-duration="1:06">
+          <video data-preview src="../media/showreel.mp4" poster="../media/showreel.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">SHOWREEL</span>
+        </span>
+      </a>
+    </section>
+
+    <div class="view-switch" role="group" aria-label="View">
+      <button class="ul" type="button" data-view="grid" aria-pressed="true">grid</button>
+      <button class="ul" type="button" data-view="index" aria-pressed="false">index</button>
+    </div>
+    <ol class="work-index" hidden></ol>
+
     <!-- Un projet = un bloc <a class="tile">.
          data-film    : le film avec le son, lu en plein écran (media/*-full.mp4).
          data-portrait : pour un film vertical (9:16).
          data-credit  : la mention affichée sous le film. -->
     <div class="grid">
       <a class="tile" href="../media/loro-piana-ss25-full.mp4" data-film="../media/loro-piana-ss25-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Loro Piana — Spring Summer 2025">
-        <video data-preview src="../media/loro-piana-ss25.mp4" poster="../media/loro-piana-ss25.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">LORO PIANA</span>
+        <span class="tile-media">
+          <video data-preview src="../media/loro-piana-ss25.mp4" poster="../media/loro-piana-ss25.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">LORO PIANA</span>
+        </span>
       </a>
       <a class="tile" href="../media/loro-piana-ss24-full.mp4" data-film="../media/loro-piana-ss24-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Loro Piana — Spring Summer 2024">
-        <video data-preview src="../media/loro-piana-ss24.mp4" poster="../media/loro-piana-ss24.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">LORO PIANA</span>
+        <span class="tile-media">
+          <video data-preview src="../media/loro-piana-ss24.mp4" poster="../media/loro-piana-ss24.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">LORO PIANA</span>
+        </span>
       </a>
       <a class="tile" href="../media/margiela-full.mp4" data-film="../media/margiela-full.mp4" data-portrait data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Maison Margiela — Christmas">
-        <video data-preview src="../media/margiela.mp4" poster="../media/margiela.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">MARGIELA</span>
+        <span class="tile-media">
+          <video data-preview src="../media/margiela.mp4" poster="../media/margiela.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">MARGIELA</span>
+        </span>
       </a>
       <a class="tile" href="../media/purple-full.mp4" data-film="../media/purple-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Purple">
-        <video data-preview src="../media/purple.mp4" poster="../media/purple.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">PURPLE</span>
+        <span class="tile-media">
+          <video data-preview src="../media/purple.mp4" poster="../media/purple.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">PURPLE</span>
+        </span>
       </a>
       <a class="tile" href="../media/wethenew-full.mp4" data-film="../media/wethenew-full.mp4" data-role="Music, sound design &amp; mix" aria-label="Wethenew — I'm the New">
-        <video data-preview src="../media/wethenew.mp4" poster="../media/wethenew.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">WETHENEW</span>
+        <span class="tile-media">
+          <video data-preview src="../media/wethenew.mp4" poster="../media/wethenew.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">WETHENEW</span>
+        </span>
       </a>
       <a class="tile" href="../media/kenzo-asics-full.mp4" data-film="../media/kenzo-asics-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Kenzo × Asics">
-        <video data-preview src="../media/kenzo-asics.mp4" poster="../media/kenzo-asics.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">KENZO</span>
+        <span class="tile-media">
+          <video data-preview src="../media/kenzo-asics.mp4" poster="../media/kenzo-asics.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">KENZO</span>
+        </span>
       </a>
       <a class="tile" href="../media/mellerio-talisman-full.mp4" data-film="../media/mellerio-talisman-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Mellerio — Talisman">
-        <video data-preview src="../media/mellerio-talisman.mp4" poster="../media/mellerio-talisman.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">MELLERIO</span>
+        <span class="tile-media">
+          <video data-preview src="../media/mellerio-talisman.mp4" poster="../media/mellerio-talisman.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">MELLERIO</span>
+        </span>
       </a>
       <a class="tile" href="../media/sandro-lookbook-full.mp4" data-film="../media/sandro-lookbook-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Sandro — Lookbook">
-        <video data-preview src="../media/sandro-lookbook.mp4" poster="../media/sandro-lookbook.jpg" muted loop playsinline preload="none"></video>
-        <span class="tile-label" aria-hidden="true">SANDRO</span>
+        <span class="tile-media">
+          <video data-preview src="../media/sandro-lookbook.mp4" poster="../media/sandro-lookbook.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">SANDRO</span>
+        </span>
       </a>
     </div>
 
-    <div class="more">
-      <div class="rule" aria-hidden="true"></div>
-      <a class="more-link ul" href="../other/">- additional projects -</a>
+    <!-- Formats verticaux : data-portrait les affiche en 9:16 à la lecture -->
+    <div class="strip">
+      <a class="tile" href="../media/lacoste-full.mp4" data-film="../media/lacoste-full.mp4" data-portrait data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Lacoste">
+        <span class="tile-media">
+          <video data-preview src="../media/lacoste.mp4" poster="../media/lacoste.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">LACOSTE</span>
+        </span>
+      </a>
+      <a class="tile" href="../media/mellerio-full.mp4" data-film="../media/mellerio-full.mp4" data-portrait data-credit="music coproduced with BRUIT and under their supervision" data-role="Music" aria-label="Mellerio — Hugo Marchand">
+        <span class="tile-media">
+          <video data-preview src="../media/mellerio.mp4" poster="../media/mellerio.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">MELLERIO</span>
+        </span>
+      </a>
+      <a class="tile" href="../media/sandro-full.mp4" data-film="../media/sandro-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Sandro">
+        <span class="tile-media">
+          <video data-preview src="../media/sandro.mp4" poster="../media/sandro.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">SANDRO</span>
+        </span>
+      </a>
+      <a class="tile" href="../media/vogue-full.mp4" data-film="../media/vogue-full.mp4" data-portrait data-credit="music coproduced with BRUIT and under their supervision" data-role="Music" aria-label="Vogue">
+        <span class="tile-media">
+          <video data-preview src="../media/vogue.mp4" poster="../media/vogue.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">VOGUE</span>
+        </span>
+      </a>
+      <a class="tile" href="../media/cartier-full.mp4" data-film="../media/cartier-full.mp4" data-portrait data-credit="sound design produced under the supervision of BRUIT" data-role="Sound design" aria-label="Cartier">
+        <span class="tile-media">
+          <video data-preview src="../media/cartier.mp4" poster="../media/cartier.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">CARTIER</span>
+        </span>
+      </a>
+      <a class="tile" href="../media/coltesse-full.mp4" data-film="../media/coltesse-full.mp4" data-portrait data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Coltesse">
+        <span class="tile-media">
+          <video data-preview src="../media/coltesse.mp4" poster="../media/coltesse.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">COLTESSE</span>
+        </span>
+      </a>
     </div>
+
+    <div class="grid grid-wide">
+      <a class="tile" href="../media/uniqlo-full.mp4" data-film="../media/uniqlo-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Uniqlo — Opéra">
+        <span class="tile-media">
+          <video data-preview src="../media/uniqlo.mp4" poster="../media/uniqlo.jpg" muted loop playsinline preload="none"></video>
+          <span class="tile-label" aria-hidden="true">UNIQLO</span>
+        </span>
+      </a>
+      <a class="tile" href="../media/court-metrage-full.mp4" data-film="../media/court-metrage-full.mp4" data-role="Music" aria-label="Short film — Klara">
+        <span class="tile-media">
+          <video data-preview src="../media/court-metrage.mp4" poster="../media/court-metrage.jpg" muted loop playsinline preload="none"></video>
+        </span>
+      </a>
+    </div>
+
+    <section class="player" aria-label="Music">
+      <div class="player-head">
+        <div class="player-btns">
+          <button class="prev" type="button" aria-label="Previous track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 12 20 5v14zM2 12l9-7v14z"/></svg></button>
+          <button class="pp" type="button" aria-label="Lecture">
+            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+          </button>
+          <button class="next" type="button" aria-label="Next track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 12 4 19V5zm9 0-9 7V5z"/></svg></button>
+        </div>
+        <div class="player-now">
+          <span class="now-title"></span>
+          <span class="now-artist"></span>
+        </div>
+        <span class="player-time">0:00</span>
+      </div>
+      <div class="rail" role="slider" tabindex="0" aria-label="Seek"><div class="rail-fill"></div></div>
+      <ol class="tracks">
+        <li><button type="button" data-src="../media/glitchy.mp3"><span class="t">Glitchy</span><span class="a">David Bismuth</span></button></li>
+        <li><button type="button" data-src="../media/purple-track.mp3"><span class="t">Purple</span><span class="a">David Bismuth</span></button></li>
+        <li><button type="button" data-src="../media/to-the-reaper.mp3"><span class="t">To The Reaper</span><span class="a">David Bismuth</span></button></li>
+        <li><button type="button" data-src="../media/chantons-sous-la-pluie.mp3"><span class="t">Chantons sous la Pluie from “Le Dernier pas”</span><span class="a">David Bismuth</span></button></li>
+        <li><button type="button" data-src="../media/le-dernier-pas-main-title.mp3"><span class="t">Main Title from “Le Dernier pas”</span><span class="a">David Bismuth</span></button></li>
+      </ol>
+      <audio preload="none"></audio>
+    </section>
   </main>
 
   <nav class="site-contact" aria-label="Contact">

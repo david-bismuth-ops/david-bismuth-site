@@ -8,8 +8,8 @@ Aucun outil à installer : ce sont des fichiers HTML/CSS/JS à déposer tels que
 
 ```
 index.html            accueil (vidéo plein écran → projets)
-projects/index.html   grille principale (8 projets)
-other/index.html      projets additionnels (8) + lecteur audio
+projects/index.html   showreel + les 16 films (vue grille ou index) + lecteur audio
+other/index.html      redirige l'ancienne page vers /projects/
 games/index.html      jeu vidéo (GRAB GRAB, Ravenswatch)
 about/index.html      à propos
 cv/                   CV global EN et FR (sans téléphone), liés dans le pied de page et sur About
@@ -83,3 +83,11 @@ Remplacer `cv/David-Bismuth_CV_EN.pdf` (et `_FR`) par le nouveau PDF en gardant 
 ## Vidéo GRAB GRAB
 
 `media/grab-grab-full.mp4` vient de la capture « grab_sound » (Drive). Le son de la capture était à −51,6 LUFS, il a été remonté de +33 dB avec un limiteur (résultat : −18,9 LUFS).
+
+## Showreel
+
+`media/showreel-full.mp4` est un premier jet d'1 min 06, monté automatiquement : 11 extraits de 6,5 s, choisis sur les passages les plus intenses de chaque film, avec des fondus de 0,5 s et un niveau aligné (−16 LUFS). Les noms qui s'affichent pendant la lecture viennent de l'attribut `data-chapters` de la tuile `tile-reel`, au format `[début en secondes, nom]`. Pour le remplacer par ton propre montage, exporte-le en 1280×720 H.264 + AAC sous le même nom et mets à jour `data-chapters`, ainsi que la durée (`data-duration`).
+
+## Son au survol
+
+Les aperçus (`media/<projet>.mp4`, 12 s) ont maintenant une piste son, alignée à −18 LUFS. Le bouton « sound off / on » de l'en-tête (pages projects et games) fait entendre la musique du film survolé. Il est masqué sur téléphone, où le survol n'existe pas. Pour un nouveau projet, fabrique l'aperçu avec le son.
