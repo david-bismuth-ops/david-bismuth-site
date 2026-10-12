@@ -268,7 +268,10 @@
       v.muted = true;
       play(v);
       hearIn(v);
-      loadSlide(slides[(slides.indexOf(sl) + 1) % slides.length]); // le suivant se prépare
+      // Le suivant et le précédent se préparent, pour qu'aucun écran n'arrive vide
+      var i = slides.indexOf(sl);
+      loadSlide(slides[(i + 1) % slides.length]);
+      loadSlide(slides[(i - 1 + slides.length) % slides.length]);
     };
     var go = function (dir) {
       if (busy || (lb && lb.open)) return;
@@ -281,33 +284,44 @@
       var vFrom = vidOf(from);
       if (!vFrom.muted) fadeTo(vFrom, 0, 700);
       var mFrom = from.querySelector(".slide-media"), mTo = to.querySelector(".slide-media"), lead;
+      // fill « forwards » : chaque élément reste à sa position finale jusqu'au nettoyage,
+      // sinon l'écran sortant réapparaît une image avant d'être masqué (petit saut visible)
+      var anims = [];
+      var anim = function (el, frames, opts) {
+        opts.fill = "forwards";
+        var a = el.animate(frames, opts);
+        anims.push(a);
+        return a;
+      };
       if (dir > 0) {
         // L'écran actuel monte et découvre le suivant, qui se pose en douceur
         from.classList.add("is-moving");
-        lead = from.animate([{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], { duration: DUR, easing: EASE });
-        mFrom.animate([{ transform: "translateY(0)" }, { transform: "translateY(45%)" }], { duration: DUR, easing: EASE });
-        mTo.animate([{ transform: "scale(1.12)" }, { transform: "scale(1)" }], { duration: DUR + 300, easing: OUT });
+        lead = anim(from, [{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], { duration: DUR, easing: EASE });
+        anim(mFrom, [{ transform: "translateY(0)" }, { transform: "translateY(45%)" }], { duration: DUR, easing: EASE });
+        anim(mTo, [{ transform: "scale(1.12)" }, { transform: "scale(1)" }], { duration: DUR + 300, easing: OUT });
       } else {
         // En remontant, l'écran précédent redescend par-dessus
         to.classList.add("is-moving");
-        lead = to.animate([{ transform: "translateY(-100%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
-        mTo.animate([{ transform: "translateY(45%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
-        mFrom.animate([{ transform: "scale(1)" }, { transform: "scale(1.08)" }], { duration: DUR, easing: EASE });
+        lead = anim(to, [{ transform: "translateY(-100%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
+        anim(mTo, [{ transform: "translateY(45%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
+        anim(mFrom, [{ transform: "scale(1)" }, { transform: "scale(1.08)" }], { duration: DUR, easing: EASE });
       }
       from.querySelectorAll(".slide-title span").forEach(function (sp) {
-        sp.animate([{ transform: "translateY(0)" }, { transform: "translateY(-110%)" }],
-          { duration: 450, easing: "cubic-bezier(0.55, 0, 1, 0.45)", fill: "forwards" });
+        anim(sp, [{ transform: "translateY(0)" }, { transform: "translateY(-110%)" }],
+          { duration: 450, easing: "cubic-bezier(0.55, 0, 1, 0.45)" });
       });
       titleIn(to, 420);
       lead.finished.then(function () {
+        // Le rideau est passé : l'écran sortant est masqué (il reste figé hors champ)
         from.classList.remove("is-active", "is-moving");
         to.classList.remove("is-moving");
         vFrom.pause();
         vFrom.muted = true;
-        from.querySelectorAll(".slide-title span").forEach(function (sp) {
-          sp.getAnimations().forEach(function (a) { a.cancel(); });
-        });
-        setTimeout(function () { busy = false; }, 200);
+      });
+      Promise.all(anims.map(function (a) { return a.finished; })).then(function () {
+        // Tout est fini : les positions finales sont les positions normales, on libère
+        anims.forEach(function (a) { a.cancel(); });
+        busy = false;
       });
     };
 
