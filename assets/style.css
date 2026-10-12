@@ -206,24 +206,96 @@ body:not(.page-home) .site-contact a::before {
 }
 .play-cursor.is-on { opacity: 1; scale: 1; }
 
-/* ---------- Accueil : vidéo plein écran ---------- */
+/* ---------- Accueil : un projet par écran, qui défile comme un rideau ---------- */
 
-.hero {
-  position: fixed;
-  inset: 0;
-  display: block;
-  background: var(--bg);
+.page-home { overflow: hidden; overscroll-behavior: none; }
+.slider { position: fixed; inset: 0; background: #111; touch-action: none; }
+.slides { position: absolute; inset: 0; }
+.slide { position: absolute; inset: 0; overflow: hidden; visibility: hidden; z-index: 1; cursor: pointer; }
+.slide.is-active { visibility: visible; z-index: 2; }
+.slide.is-moving { visibility: visible; z-index: 3; }
+.slide-media { position: absolute; inset: 0; overflow: hidden; background: #111; }
+.slide-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Formats verticaux ou carrés : le film entier, sur un fond flou tiré de son image */
+.slide.is-fit .slide-media::before {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  background: var(--poster) center / cover;
+  filter: blur(50px) brightness(0.75);
 }
-.hero video { width: 100%; height: 100%; object-fit: cover; }
-.home-enter {
-  position: fixed;
+.slide.is-fit .slide-media video { object-fit: contain; }
+
+.slide-title {
+  position: absolute;
   right: calc(137 * var(--u));
-  bottom: calc(38 * var(--u));
-  z-index: 40;
-  font-size: calc(25 * var(--u));
-  line-height: calc(31 * var(--u));
-  letter-spacing: -0.025em;
+  bottom: calc(150 * var(--u));
+  z-index: 2;
+  max-width: 70vw;
+  text-align: right;
+  pointer-events: none;
 }
+.slide-title h2, .slide-title p { margin: 0; overflow: hidden; }
+.slide-title span { display: inline-block; }
+.st-big { font-size: calc(124 * var(--u)); line-height: 1.02; font-weight: 500; letter-spacing: -0.03em; padding-bottom: 0.06em; }
+.st-sub { margin-top: calc(10 * var(--u)) !important; font-size: calc(31 * var(--u)); line-height: 1.2; letter-spacing: -0.017em; opacity: 0.85; }
+
+.browse-list {
+  position: fixed;
+  left: calc(82 * var(--u));
+  top: 50%;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: max(84px, calc(150 * var(--u)));
+  height: max(84px, calc(150 * var(--u)));
+  margin-top: min(-42px, calc(-75 * var(--u)));
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  font-size: max(12px, calc(21 * var(--u)));
+  line-height: 1.15;
+  text-align: center;
+  letter-spacing: -0.01em;
+  transition: background 0.35s ease, color 0.35s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.browse-list::after {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--paper);
+}
+.browse-list:hover { background: var(--paper); color: var(--ink); transform: scale(1.06); }
+.slider-count {
+  position: fixed;
+  left: calc(82 * var(--u));
+  top: calc(50% + max(56px, calc(100 * var(--u))));
+  z-index: 30;
+  margin: 0;
+  font-size: max(12px, calc(21 * var(--u)));
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.slider-arrow {
+  position: fixed;
+  left: 50%;
+  z-index: 30;
+  width: max(26px, calc(40 * var(--u)));
+  height: max(16px, calc(22 * var(--u)));
+  margin-left: min(-13px, calc(-20 * var(--u)));
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.slider-arrow svg { width: 100%; height: 100%; fill: none; stroke: var(--paper); stroke-width: 1.5; }
+.slider-prev { top: calc(36 * var(--u)); }
+.slider-next { bottom: calc(36 * var(--u)); }
+.slider-arrow:hover { opacity: 1; }
+.slider-prev:hover { transform: translateY(-3px); }
+.slider-next:hover { transform: translateY(3px); }
 
 /* ---------- Grilles de projets ---------- */
 
@@ -573,7 +645,13 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .h-role { left: 16px; top: 14px; font-size: 16px; line-height: 20px; }
   .h-name { left: 16px; top: 34px; font-size: 15px; line-height: 20px; }
   .h-nav { right: 16px; top: 15px; gap: 14px; font-size: 15px; line-height: 20px; }
-  .home-enter { right: 16px; bottom: 14px; font-size: 14px; line-height: 18px; }
+  .slide-title { right: 16px; bottom: 64px; max-width: calc(100vw - 32px); }
+  .st-big { font-size: 40px; }
+  .st-sub { margin-top: 4px !important; font-size: 14px; }
+  .browse-list { left: auto; right: 16px; top: 78px; margin-top: 0; width: 72px; height: 72px; font-size: 11px; }
+  .browse-list::after { display: none; }
+  .slider-count { left: auto; right: 16px; top: 160px; font-size: 12px; }
+  .slider-arrow { display: none; }
   .lb-stage { padding: 0 0 64px; }
   .lb-head { padding: 0 64px 0 16px; flex-direction: column; gap: 2px; margin-bottom: 10px; }
   .lb-frame.is-portrait { width: min(100vw, calc((100dvh - 240px) * 9 / 16)); height: auto; }

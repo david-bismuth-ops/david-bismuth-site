@@ -23,17 +23,147 @@
     <a class="h-role ul" href="projects/">Composer &amp; Sound Designer</a>
     <a class="h-name ul" href="./" aria-current="page">David Bismuth</a>
     <nav class="h-nav" aria-label="Sections">
+      <button class="sound-toggle ul" type="button" aria-pressed="false" title="Hear the music of each film"><span class="sound-state">sound off</span></button>
       <a class="ul" href="games/">games</a>
       <a class="ul" href="about/">about</a>
     </nav>
   </header>
 
-  <main>
+  <main class="slider" aria-roledescription="carousel" aria-label="Selected work">
     <h1 class="visually-hidden">David Bismuth — Composer, Sound Designer &amp; Mixer</h1>
-    <a class="hero" href="projects/" aria-label="See projects">
-      <video src="media/hero.mp4" poster="media/hero.jpg" autoplay muted loop playsinline preload="auto"></video>
-    </a>
-    <a class="home-enter ul" href="projects/">projects →</a>
+    <!-- Un écran = une <section class="slide"> ; l'ordre des sections est l'ordre du défilement -->
+    <div class="slides">
+      <section class="slide" data-film="media/showreel-full.mp4" data-role="Selected work" data-chapters='[[0.0, "Loro Piana — SS25"], [6.0, "Kenzo × Asics"], [12.0, "Purple"], [18.0, "GRAB GRAB — gameplay + Wwise"], [24.0, "Mellerio — Talisman"], [30.0, "Wethenew"], [36.0, "Maison Margiela"], [42.0, "Loro Piana — SS24"], [48.0, "Uniqlo — Opéra"], [54.0, "Sandro"], [60.0, "Klara — short film"]]' aria-label="Showreel">
+        <div class="slide-media"><video data-src="media/showreel-full.mp4" poster="media/showreel.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Showreel</span></h2>
+          <p class="st-sub"><span>Selected work · 1:06</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/loro-piana-ss25-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Loro Piana — Spring Summer 2025">
+        <div class="slide-media"><video data-src="media/loro-piana-ss25-full.mp4" poster="media/loro-piana-ss25.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Loro Piana</span></h2>
+          <p class="st-sub"><span>Spring Summer 2025 · Music</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/kenzo-asics-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Kenzo × Asics">
+        <div class="slide-media"><video data-src="media/kenzo-asics-full.mp4" poster="media/kenzo-asics.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Kenzo × Asics</span></h2>
+          <p class="st-sub"><span>Music</span></p>
+        </div>
+      </section>
+      <section class="slide is-fit" data-film="media/margiela-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" data-portrait aria-label="Maison Margiela — Christmas">
+        <div class="slide-media" style="--poster: url('/media/margiela.jpg')"><video data-src="media/margiela-full.mp4" poster="media/margiela.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Maison Margiela</span></h2>
+          <p class="st-sub"><span>Christmas · Music</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/purple-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Purple">
+        <div class="slide-media"><video data-src="media/purple-full.mp4" poster="media/purple.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Purple</span></h2>
+          <p class="st-sub"><span>Music</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/grab-grab-full.mp4" data-role="Music, SFX, mix &amp; Wwise" data-credit="gameplay + live Wwise session" aria-label="GRAB GRAB — gameplay and live Wwise session">
+        <div class="slide-media"><video data-src="media/grab-grab-full.mp4" poster="media/grab-grab.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>GRAB GRAB</span></h2>
+          <p class="st-sub"><span>Video game · Music, SFX, mix &amp; Wwise</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/mellerio-talisman-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Mellerio — Talisman">
+        <div class="slide-media"><video data-src="media/mellerio-talisman-full.mp4" poster="media/mellerio-talisman.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Mellerio</span></h2>
+          <p class="st-sub"><span>Talisman · Music</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/wethenew-full.mp4" data-role="Music, sound design &amp; mix" aria-label="Wethenew — I&#x27;m the New">
+        <div class="slide-media"><video data-src="media/wethenew-full.mp4" poster="media/wethenew.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Wethenew</span></h2>
+          <p class="st-sub"><span>I&#x27;m the New · Music, sound design &amp; mix</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/loro-piana-ss24-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Loro Piana — Spring Summer 2024">
+        <div class="slide-media"><video data-src="media/loro-piana-ss24-full.mp4" poster="media/loro-piana-ss24.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Loro Piana</span></h2>
+          <p class="st-sub"><span>Spring Summer 2024 · Music</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/sandro-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Sandro">
+        <div class="slide-media"><video data-src="media/sandro-full.mp4" poster="media/sandro.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Sandro</span></h2>
+          <p class="st-sub"><span>Music</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/uniqlo-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Uniqlo — Opéra">
+        <div class="slide-media"><video data-src="media/uniqlo-full.mp4" poster="media/uniqlo.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Uniqlo</span></h2>
+          <p class="st-sub"><span>Opéra · Music</span></p>
+        </div>
+      </section>
+      <section class="slide is-fit" data-film="media/cartier-full.mp4" data-role="Sound design" data-credit="sound design produced under the supervision of BRUIT" data-portrait aria-label="Cartier">
+        <div class="slide-media" style="--poster: url('/media/cartier.jpg')"><video data-src="media/cartier-full.mp4" poster="media/cartier.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Cartier</span></h2>
+          <p class="st-sub"><span>Sound design</span></p>
+        </div>
+      </section>
+      <section class="slide is-fit" data-film="media/vogue-full.mp4" data-role="Music" data-credit="music coproduced with BRUIT and under their supervision" data-portrait aria-label="Vogue">
+        <div class="slide-media" style="--poster: url('/media/vogue.jpg')"><video data-src="media/vogue-full.mp4" poster="media/vogue.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Vogue</span></h2>
+          <p class="st-sub"><span>Music</span></p>
+        </div>
+      </section>
+      <section class="slide is-fit" data-film="media/lacoste-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" data-portrait aria-label="Lacoste">
+        <div class="slide-media" style="--poster: url('/media/lacoste.jpg')"><video data-src="media/lacoste-full.mp4" poster="media/lacoste.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Lacoste</span></h2>
+          <p class="st-sub"><span>Music</span></p>
+        </div>
+      </section>
+      <section class="slide is-fit" data-film="media/coltesse-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" data-portrait aria-label="Coltesse">
+        <div class="slide-media" style="--poster: url('/media/coltesse.jpg')"><video data-src="media/coltesse-full.mp4" poster="media/coltesse.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Coltesse</span></h2>
+          <p class="st-sub"><span>Music</span></p>
+        </div>
+      </section>
+      <section class="slide is-fit" data-film="media/mellerio-full.mp4" data-role="Music" data-credit="music coproduced with BRUIT and under their supervision" data-portrait aria-label="Mellerio — Hugo Marchand">
+        <div class="slide-media" style="--poster: url('/media/mellerio.jpg')"><video data-src="media/mellerio-full.mp4" poster="media/mellerio.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Mellerio</span></h2>
+          <p class="st-sub"><span>Hugo Marchand · Music</span></p>
+        </div>
+      </section>
+      <section class="slide is-fit" data-film="media/sandro-lookbook-full.mp4" data-role="Music" data-credit="music produced under the supervision of BRUIT" aria-label="Sandro — Lookbook">
+        <div class="slide-media" style="--poster: url('/media/sandro-lookbook.jpg')"><video data-src="media/sandro-lookbook-full.mp4" poster="media/sandro-lookbook.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Sandro</span></h2>
+          <p class="st-sub"><span>Lookbook · Music</span></p>
+        </div>
+      </section>
+      <section class="slide" data-film="media/court-metrage-full.mp4" data-role="Music" aria-label="Short film — Klara">
+        <div class="slide-media"><video data-src="media/court-metrage-full.mp4" poster="media/court-metrage.jpg" muted loop playsinline preload="none"></video></div>
+        <div class="slide-title">
+          <h2 class="st-big"><span>Klara</span></h2>
+          <p class="st-sub"><span>Short film · Music</span></p>
+        </div>
+      </section>
+    </div>
+    <a class="browse-list" href="projects/"><span>browse<br>list</span></a>
+    <p class="slider-count" aria-live="polite"><span class="sc-now">01</span> / <span class="sc-total">18</span></p>
+    <button class="slider-arrow slider-prev" type="button" aria-label="Previous project"><svg viewBox="0 0 40 22" aria-hidden="true"><path d="M2 20 20 3l18 17"/></svg></button>
+    <button class="slider-arrow slider-next" type="button" aria-label="Next project"><svg viewBox="0 0 40 22" aria-hidden="true"><path d="M2 2l18 17L38 2"/></svg></button>
   </main>
 
   <nav class="site-contact" aria-label="Contact">
@@ -42,6 +172,29 @@
     <a class="ul" href="https://www.instagram.com/david__bismuth/" target="_blank" rel="noopener">instagram</a>
     <a class="ul" href="cv/David-Bismuth_CV_EN.pdf" target="_blank" rel="noopener">cv</a>
   </nav>
+
+  <dialog class="lightbox" aria-label="Film">
+    <button class="lb-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 72 72" aria-hidden="true"><path d="M12 12 60 60M60 12 12 60"/></svg>
+    </button>
+    <button class="lb-nav lb-prev" type="button" aria-label="Previous film">
+      <svg viewBox="0 0 40 72" aria-hidden="true"><path d="M34 4 6 36l28 32"/></svg>
+    </button>
+    <button class="lb-nav lb-next" type="button" aria-label="Next film">
+      <svg viewBox="0 0 40 72" aria-hidden="true"><path d="M6 4l28 32L6 68"/></svg>
+    </button>
+    <div class="lb-stage">
+      <div class="lb-head">
+        <p class="lb-title"></p>
+        <p class="lb-role"></p>
+      </div>
+      <div class="lb-frame"></div>
+      <div class="lb-foot">
+        <p class="lb-count"></p>
+        <p class="lb-caption"></p>
+      </div>
+    </div>
+  </dialog>
 
   <script src="assets/site.js" defer></script>
 </body>

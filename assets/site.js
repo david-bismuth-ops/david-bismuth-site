@@ -43,6 +43,7 @@
   /* ---------- Son au survol : « sound on » fait entendre la musique du film survolé ---------- */
 
   var soundBtn = document.querySelector(".sound-toggle");
+  var sliderApi = null;
   var soundOn = false;
   var fades = new WeakMap();
   var fadeTo = function (v, target, ms) {
@@ -67,6 +68,7 @@
     soundBtn.setAttribute("aria-pressed", on ? "true" : "false");
     soundBtn.querySelector(".sound-state").textContent = on ? "sound on" : "sound off";
     if (!on) previews.forEach(function (v) { if (!v.muted) fadeTo(v, 0, 200); });
+    if (sliderApi) sliderApi.sound(on);
   };
   var hearIn = function (v) {
     if (!soundOn || !v) return;
@@ -137,7 +139,7 @@
   /* ---------- Lecture plein écran des films (media/*-full.mp4) ---------- */
 
   var lb = document.querySelector(".lightbox");
-  var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile[data-film]"));
+  var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile[data-film], .slide[data-film]"));
   var openFilm = null;
   if (lb) {
     var frame = lb.querySelector(".lb-frame");
@@ -208,10 +210,9 @@
       root.style.overflow = "hidden";
       clearInterval(ambientTimer);
       ambientTimer = setInterval(paintAmbient, 140);
-      // Un seul son à la fois : aperçus et lecteur audio se mettent en pause
-      previews.forEach(function (v) { v.muted = true; v.pause(); });
+      // Un seul son à la fois : toutes les autres vidéos et le lecteur audio se mettent en pause
+      document.querySelectorAll("video").forEach(function (v) { if (!lb.contains(v)) { v.muted = true; v.pause(); } });
       document.querySelectorAll("audio").forEach(function (a) { a.pause(); });
-      if (floatVideo) { floatVideo.muted = true; floatVideo.pause(); }
     };
     openFilm = open;
 
@@ -227,6 +228,7 @@
         var r = v.getBoundingClientRect();
         if (r.bottom > 0 && r.top < innerHeight) play(v);
       });
+      if (sliderApi) sliderApi.resume();
     });
     lb.querySelector(".lb-close").addEventListener("click", close);
     lb.querySelector(".lb-prev").addEventListener("click", function () { show(index - 1); });
@@ -263,6 +265,110 @@
       });
       tile.addEventListener("pointerleave", function () { hearOut(v); if (canTint) untint(); });
     });
+  }
+
+  /* ---------- Accueil : un projet par écran ; l'écran remonte comme un rideau ---------- */
+
+  var slider = document.querySelector(".slider");
+  if (slider) {
+    var slides = Array.prototype.slice.call(slider.querySelectorAll(".slide"));
+    var curSlide = 0, busy = false;
+    var pad2 = function (n) { return String(n).padStart(2, "0"); };
+    var nowEl = slider.querySelector(".sc-now");
+    slider.querySelector(".sc-total").textContent = pad2(slides.length);
+    var vidOf = function (sl) { return sl.querySelector("video"); };
+    var loadSlide = function (sl) {
+      var v = vidOf(sl);
+      if (!v.getAttribute("src")) { v.src = v.dataset.src; v.preload = "auto"; }
+      return v;
+    };
+    var EASE = "cubic-bezier(0.76, 0, 0.24, 1)", OUT = "cubic-bezier(0.22, 1, 0.36, 1)", DUR = 1100;
+    var titleIn = function (sl, delay) {
+      sl.querySelectorAll(".slide-title span").forEach(function (sp, i) {
+        sp.animate([{ transform: "translateY(110%)" }, { transform: "translateY(0)" }],
+          { duration: 900, delay: delay + i * 90, easing: OUT, fill: "backwards" });
+      });
+    };
+    var activate = function (sl) {
+      sl.classList.add("is-active");
+      var v = loadSlide(sl);
+      v.muted = true;
+      play(v);
+      hearIn(v);
+      loadSlide(slides[(slides.indexOf(sl) + 1) % slides.length]); // le suivant se prépare
+    };
+    var go = function (dir) {
+      if (busy || (lb && lb.open)) return;
+      busy = true;
+      var from = slides[curSlide];
+      curSlide = (curSlide + dir + slides.length) % slides.length;
+      var to = slides[curSlide];
+      nowEl.textContent = pad2(curSlide + 1);
+      activate(to);
+      var vFrom = vidOf(from);
+      if (!vFrom.muted) fadeTo(vFrom, 0, 700);
+      var mFrom = from.querySelector(".slide-media"), mTo = to.querySelector(".slide-media"), lead;
+      if (dir > 0) {
+        // L'écran actuel monte et découvre le suivant, qui se pose en douceur
+        from.classList.add("is-moving");
+        lead = from.animate([{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], { duration: DUR, easing: EASE });
+        mFrom.animate([{ transform: "translateY(0)" }, { transform: "translateY(45%)" }], { duration: DUR, easing: EASE });
+        mTo.animate([{ transform: "scale(1.12)" }, { transform: "scale(1)" }], { duration: DUR + 300, easing: OUT });
+      } else {
+        // En remontant, l'écran précédent redescend par-dessus
+        to.classList.add("is-moving");
+        lead = to.animate([{ transform: "translateY(-100%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
+        mTo.animate([{ transform: "translateY(45%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
+        mFrom.animate([{ transform: "scale(1)" }, { transform: "scale(1.08)" }], { duration: DUR, easing: EASE });
+      }
+      from.querySelectorAll(".slide-title span").forEach(function (sp) {
+        sp.animate([{ transform: "translateY(0)" }, { transform: "translateY(-110%)" }],
+          { duration: 450, easing: "cubic-bezier(0.55, 0, 1, 0.45)", fill: "forwards" });
+      });
+      titleIn(to, 420);
+      lead.finished.then(function () {
+        from.classList.remove("is-active", "is-moving");
+        to.classList.remove("is-moving");
+        vFrom.pause();
+        vFrom.muted = true;
+        from.querySelectorAll(".slide-title span").forEach(function (sp) {
+          sp.getAnimations().forEach(function (a) { a.cancel(); });
+        });
+        setTimeout(function () { busy = false; }, 200);
+      });
+    };
+
+    // Molette ou pavé tactile : un projet par geste (l'inertie ne fait pas sauter d'écrans)
+    var lastWheel = 0;
+    window.addEventListener("wheel", function (e) {
+      if (lb && lb.open) return;
+      var now = performance.now(), fresh = now - lastWheel > 260;
+      lastWheel = now;
+      if (Math.abs(e.deltaY) < 4 || !fresh) return;
+      go(e.deltaY > 0 ? 1 : -1);
+    }, { passive: true });
+    document.addEventListener("keydown", function (e) {
+      if (lb && lb.open) return;
+      if (["ArrowDown", "PageDown", " "].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
+      if (["ArrowUp", "PageUp"].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+    });
+    var y0 = null;
+    slider.addEventListener("touchstart", function (e) { y0 = e.touches[0].clientY; }, { passive: true });
+    slider.addEventListener("touchend", function (e) {
+      if (y0 === null) return;
+      var dy = y0 - e.changedTouches[0].clientY;
+      y0 = null;
+      if (Math.abs(dy) > 40) go(dy > 0 ? 1 : -1);
+    }, { passive: true });
+    slider.querySelector(".slider-prev").addEventListener("click", function () { go(-1); });
+    slider.querySelector(".slider-next").addEventListener("click", function () { go(1); });
+
+    sliderApi = {
+      sound: function (on) { var v = vidOf(slides[curSlide]); if (on) hearIn(v); else hearOut(v); },
+      resume: function () { var v = vidOf(slides[curSlide]); v.muted = true; play(v); hearIn(v); }
+    };
+    titleIn(slides[0], 250);
+    activate(slides[0]);
   }
 
   /* ---------- Vue « index » : la liste des projets, le film flotte près du curseur ---------- */

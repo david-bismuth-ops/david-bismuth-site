@@ -7,7 +7,7 @@ Aucun outil à installer : ce sont des fichiers HTML/CSS/JS à déposer tels que
 ## Structure
 
 ```
-index.html            accueil (vidéo plein écran → projets)
+index.html            accueil : un projet par écran (façon aocprod.com), molette / flèches / glisser
 projects/index.html   showreel + les 16 films (vue grille ou index) + lecteur audio
 other/index.html      redirige l'ancienne page vers /projects/
 games/index.html      jeu vidéo (GRAB GRAB, Ravenswatch)
@@ -91,3 +91,7 @@ Remplacer `cv/David-Bismuth_CV_EN.pdf` (et `_FR`) par le nouveau PDF en gardant 
 ## Son au survol
 
 Les aperçus (`media/<projet>.mp4`, 12 s) ont maintenant une piste son, alignée à −18 LUFS. Le bouton « sound off / on » de l'en-tête (pages projects et games) fait entendre la musique du film survolé. Il est masqué sur téléphone, où le survol n'existe pas. Pour un nouveau projet, fabrique l'aperçu avec le son.
+
+## Accueil : un projet par écran
+
+Chaque `<section class="slide">` de `index.html` est un écran, dans l'ordre du défilement. Le grand titre se trouve dans `.st-big`, la ligne en dessous dans `.st-sub`. Le film lu (en muet, avec le son si « sound on ») est donné par `data-src`. Pour un film vertical ou carré, ajouter la classe `is-fit` et `style="--poster: url('/media/<projet>.jpg')"` (fond flou). Un clic ouvre le film en plein écran avec le son.
