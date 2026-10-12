@@ -140,14 +140,25 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .site-header { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease; }
 
-/* Pastille couleur du fond derrière chaque mot fixe : invisible sur le gris,
-   elle garde le texte lisible quand il passe au-dessus d'une vidéo (sauf l'accueil) */
-body:not(.page-home) .site-header a,
-body:not(.page-home) .site-header button,
-body:not(.page-home) .site-contact a {
-  background-color: var(--bg);
-  padding: 0.12em 0.32em;
-  margin: -0.12em -0.32em;
+/* Léger flou derrière chaque mot fixe, aux bords fondus : invisible sur le gris uni,
+   il adoucit l'image juste sous le texte quand celui-ci passe sur une vidéo (sauf l'accueil) */
+.site-header .h-nav a, .site-header .h-nav button, .site-contact a { position: relative; }
+body:not(.page-home) .site-header a::before,
+body:not(.page-home) .site-header button::before,
+body:not(.page-home) .site-contact a::before {
+  content: "";
+  position: absolute;
+  inset: -0.45em -0.7em;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 0.6em, #000 calc(100% - 0.6em), transparent),
+                      linear-gradient(to bottom, transparent, #000 0.4em, #000 calc(100% - 0.4em), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 0.6em, #000 calc(100% - 0.6em), transparent),
+              linear-gradient(to bottom, transparent, #000 0.4em, #000 calc(100% - 0.4em), transparent);
+  mask-composite: intersect;
 }
 .header-hidden .site-header { transform: translateY(-100%); opacity: 0; }
 
