@@ -142,11 +142,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .rule-top { position: absolute; top: calc(84 * var(--u)); }
 
-/* ---------- Texte fixe : s'efface en descendant pour ne pas passer sur les vidéos ---------- */
+/* ---------- En-tête : s'efface en descendant, revient en remontant ---------- */
 
-.site-header, .site-contact { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease; }
+.site-header { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease; }
 .header-hidden .site-header { transform: translateY(-100%); opacity: 0; }
-.header-hidden .site-contact { transform: translateY(100%); opacity: 0; pointer-events: none; }
 
 /* ---------- Transitions entre les pages et apparition des tuiles ---------- */
 
@@ -269,7 +268,8 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 
 /* Showreel : pleine largeur en tête de page */
 .reel { margin: 0 calc(56 * var(--u)) calc(70 * var(--u)) calc(64 * var(--u)); }
-.tile-reel .tile-media { aspect-ratio: 16 / 9; max-height: 82vh; }
+/* Toute la largeur ; la hauteur est plafonnée à 82 % de l'écran (l'image est alors recadrée) */
+.tile-reel .tile-media { aspect-ratio: auto; height: min(calc((100vw - 120 * var(--u)) * 9 / 16), 82vh); }
 .tile-reel .tile-label { font-size: calc(90 * var(--u)); letter-spacing: 0.02em; }
 .tile-reel .tile-media::before { white-space: pre; transition: opacity var(--fade); }
 .tile-reel:hover .tile-media::before { opacity: 0; }
@@ -579,6 +579,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .strip { grid-template-columns: repeat(2, 1fr); margin: 0 16px; gap: 0; }
   .strip .tile-media { aspect-ratio: 3 / 4; }
   .reel { margin: 0 16px 28px; }
+  .tile-reel .tile-media { height: calc((100vw - 32px) * 9 / 16); }
   .tile-reel .tile-label { display: none; }
   .view-switch { margin: 0 16px 14px 0; gap: 18px; font-size: 15px; }
   .work-index { margin: 0 16px; }

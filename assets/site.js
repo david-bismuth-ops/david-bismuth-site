@@ -329,7 +329,7 @@
     });
   }
 
-  /* ---------- En-tête et contacts : s'effacent en descendant, reviennent en remontant ---------- */
+  /* ---------- En-tête : s'efface en descendant, revient en remontant ---------- */
 
   var header = document.querySelector(".site-header");
   if (header) {
