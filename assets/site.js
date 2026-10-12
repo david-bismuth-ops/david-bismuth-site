@@ -38,12 +38,20 @@
   /* ---------- Lecture plein écran des films (media/*-full.mp4) ---------- */
 
   var lb = document.querySelector(".lightbox");
+  var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile[data-film]"));
   if (lb) {
     var frame = lb.querySelector(".lb-frame");
     var caption = lb.querySelector(".lb-caption");
+    var titleBox = lb.querySelector(".lb-title");
+    var roleBox = lb.querySelector(".lb-role");
+    var countBox = lb.querySelector(".lb-count");
     var lastTile = null;
+    var index = 0;
+    var pad = function (n) { return String(n).padStart(2, "0"); };
 
-    var open = function (tile) {
+    var show = function (i) {
+      index = (i + tiles.length) % tiles.length;
+      var tile = tiles[index];
       lastTile = tile;
       frame.textContent = "";
       frame.classList.toggle("is-portrait", tile.hasAttribute("data-portrait"));
@@ -56,8 +64,16 @@
       if (poster && poster.poster) media.poster = poster.poster;
       media.title = tile.getAttribute("aria-label") || "Film";
       frame.appendChild(media);
+      titleBox.textContent = tile.getAttribute("aria-label") || "";
+      roleBox.textContent = tile.dataset.role || "";
       caption.textContent = tile.dataset.credit || "";
-      lb.showModal();
+      countBox.textContent = tiles.length > 1 ? pad(index + 1) + " / " + pad(tiles.length) : "";
+      lb.classList.toggle("is-single", tiles.length < 2);
+    };
+
+    var open = function (tile) {
+      show(tiles.indexOf(tile));
+      if (!lb.open) lb.showModal();
       document.documentElement.style.overflow = "hidden";
       // Un seul son à la fois : aperçus et lecteur audio se mettent en pause
       previews.forEach(function (v) { v.pause(); });
@@ -79,26 +95,91 @@
       });
     });
     lb.querySelector(".lb-close").addEventListener("click", close);
+    lb.querySelector(".lb-prev").addEventListener("click", function () { show(index - 1); });
+    lb.querySelector(".lb-next").addEventListener("click", function () { show(index + 1); });
+    lb.addEventListener("keydown", function (e) {
+      if (e.target.tagName === "VIDEO") return; // les flèches servent alors à avancer dans le film
+      if (e.key === "ArrowLeft") { e.preventDefault(); show(index - 1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); show(index + 1); }
+    });
     // Un clic hors du film ferme la lecture
     lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
 
     // Liens texte « ▶ watch… » : data-play = rang de la tuile à ouvrir
     document.querySelectorAll("[data-play]").forEach(function (link) {
       link.addEventListener("click", function (e) {
-        var tile = document.querySelectorAll(".tile[data-film]")[+link.dataset.play];
+        var tile = tiles[+link.dataset.play];
         if (!tile || e.metaKey || e.ctrlKey || e.shiftKey) return;
         e.preventDefault();
         open(tile);
       });
     });
 
-    document.querySelectorAll(".tile[data-film]").forEach(function (tile) {
+    tiles.forEach(function (tile) {
       tile.addEventListener("click", function (e) {
         if (e.metaKey || e.ctrlKey || e.shiftKey) return; // ouvrir dans un onglet reste possible
         e.preventDefault();
         open(tile);
       });
     });
+  }
+
+  /* ---------- Curseur « play » sur les tuiles (souris uniquement) ---------- */
+
+  if (tiles.length && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    var cursor = document.createElement("div");
+    cursor.className = "play-cursor";
+    cursor.setAttribute("aria-hidden", "true");
+    cursor.textContent = "play";
+    document.body.appendChild(cursor);
+    root.classList.add("has-play-cursor");
+    var cx = 0, cy = 0, tx = 0, ty = 0, raf = 0;
+    var follow = function () {
+      cx += (tx - cx) * 0.25;
+      cy += (ty - cy) * 0.25;
+      cursor.style.transform = "translate3d(" + cx + "px," + cy + "px,0)";
+      raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.5 ? requestAnimationFrame(follow) : 0;
+    };
+    tiles.forEach(function (tile) {
+      tile.addEventListener("pointerenter", function (e) {
+        cx = tx = e.clientX; cy = ty = e.clientY;
+        cursor.style.transform = "translate3d(" + cx + "px," + cy + "px,0)";
+        cursor.classList.add("is-on");
+      });
+      tile.addEventListener("pointermove", function (e) {
+        tx = e.clientX; ty = e.clientY;
+        if (!raf) raf = requestAnimationFrame(follow);
+      });
+      tile.addEventListener("pointerleave", function () { cursor.classList.remove("is-on"); });
+      tile.addEventListener("click", function () { cursor.classList.remove("is-on"); });
+    });
+  }
+
+  /* ---------- En-tête : se masque en descendant, revient en remontant ---------- */
+
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var lastY = window.scrollY;
+    window.addEventListener("scroll", function () {
+      var y = window.scrollY;
+      root.classList.toggle("is-scrolled", y > 40);
+      if (Math.abs(y - lastY) < 6) return;
+      root.classList.toggle("header-hidden", y > lastY && y > 120);
+      lastY = y;
+    }, { passive: true });
+  }
+
+  /* ---------- Apparition douce des tuiles au défilement ---------- */
+
+  var reveal = document.querySelectorAll(".tile, .game, .player");
+  if (reveal.length && "IntersectionObserver" in window) {
+    root.classList.add("js-reveal");
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("is-in"); ro.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -6% 0px" });
+    reveal.forEach(function (el) { ro.observe(el); });
   }
 
   /* ---------- Lecteur audio ---------- */

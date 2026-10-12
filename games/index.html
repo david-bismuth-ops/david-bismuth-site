@@ -33,7 +33,7 @@
 
     <!-- Un jeu = une ligne <article class="game"> : le média à gauche, le texte à droite -->
     <article class="game">
-      <a class="tile" href="../media/grab-grab-full.mp4" data-film="../media/grab-grab-full.mp4" data-credit="gameplay + live Wwise session" aria-label="GRAB GRAB — gameplay and live Wwise session">
+      <a class="tile" href="../media/grab-grab-full.mp4" data-film="../media/grab-grab-full.mp4" data-credit="gameplay + live Wwise session" data-role="Music, SFX, mix &amp; Wwise" aria-label="GRAB GRAB — gameplay and live Wwise session">
         <video data-preview src="../media/grab-grab.mp4" poster="../media/grab-grab.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">GRAB GRAB</span>
       </a>
@@ -85,9 +85,22 @@
     <button class="lb-close" type="button" aria-label="Close">
       <svg viewBox="0 0 72 72" aria-hidden="true"><path d="M12 12 60 60M60 12 12 60"/></svg>
     </button>
+    <button class="lb-nav lb-prev" type="button" aria-label="Previous film">
+      <svg viewBox="0 0 40 72" aria-hidden="true"><path d="M34 4 6 36l28 32"/></svg>
+    </button>
+    <button class="lb-nav lb-next" type="button" aria-label="Next film">
+      <svg viewBox="0 0 40 72" aria-hidden="true"><path d="M6 4l28 32L6 68"/></svg>
+    </button>
     <div class="lb-stage">
+      <div class="lb-head">
+        <p class="lb-title"></p>
+        <p class="lb-role"></p>
+      </div>
       <div class="lb-frame"></div>
-      <p class="lb-caption"></p>
+      <div class="lb-foot">
+        <p class="lb-count"></p>
+        <p class="lb-caption"></p>
+      </div>
     </div>
   </dialog>
 

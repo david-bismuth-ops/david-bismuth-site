@@ -33,38 +33,38 @@
 
     <!-- Formats verticaux : data-portrait les affiche en 9:16 à la lecture -->
     <div class="strip">
-      <a class="tile" href="../media/lacoste-full.mp4" data-film="../media/lacoste-full.mp4" data-portrait data-credit="music produced under the supervision of BRUIT" aria-label="Lacoste">
+      <a class="tile" href="../media/lacoste-full.mp4" data-film="../media/lacoste-full.mp4" data-portrait data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Lacoste">
         <video data-preview src="../media/lacoste.mp4" poster="../media/lacoste.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">LACOSTE</span>
       </a>
-      <a class="tile" href="../media/mellerio-full.mp4" data-film="../media/mellerio-full.mp4" data-portrait data-credit="music coproduced with BRUIT and under their supervision" aria-label="Mellerio — Hugo Marchand">
+      <a class="tile" href="../media/mellerio-full.mp4" data-film="../media/mellerio-full.mp4" data-portrait data-credit="music coproduced with BRUIT and under their supervision" data-role="Music" aria-label="Mellerio — Hugo Marchand">
         <video data-preview src="../media/mellerio.mp4" poster="../media/mellerio.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">MELLERIO</span>
       </a>
-      <a class="tile" href="../media/sandro-full.mp4" data-film="../media/sandro-full.mp4" data-credit="music produced under the supervision of BRUIT" aria-label="Sandro">
+      <a class="tile" href="../media/sandro-full.mp4" data-film="../media/sandro-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Sandro">
         <video data-preview src="../media/sandro.mp4" poster="../media/sandro.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">SANDRO</span>
       </a>
-      <a class="tile" href="../media/vogue-full.mp4" data-film="../media/vogue-full.mp4" data-portrait data-credit="music coproduced with BRUIT and under their supervision" aria-label="Vogue">
+      <a class="tile" href="../media/vogue-full.mp4" data-film="../media/vogue-full.mp4" data-portrait data-credit="music coproduced with BRUIT and under their supervision" data-role="Music" aria-label="Vogue">
         <video data-preview src="../media/vogue.mp4" poster="../media/vogue.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">VOGUE</span>
       </a>
-      <a class="tile" href="../media/cartier-full.mp4" data-film="../media/cartier-full.mp4" data-portrait data-credit="sound design produced under the supervision of BRUIT" aria-label="Cartier">
+      <a class="tile" href="../media/cartier-full.mp4" data-film="../media/cartier-full.mp4" data-portrait data-credit="sound design produced under the supervision of BRUIT" data-role="Sound design" aria-label="Cartier">
         <video data-preview src="../media/cartier.mp4" poster="../media/cartier.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">CARTIER</span>
       </a>
-      <a class="tile" href="../media/coltesse-full.mp4" data-film="../media/coltesse-full.mp4" data-portrait data-credit="music produced under the supervision of BRUIT" aria-label="Coltesse">
+      <a class="tile" href="../media/coltesse-full.mp4" data-film="../media/coltesse-full.mp4" data-portrait data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Coltesse">
         <video data-preview src="../media/coltesse.mp4" poster="../media/coltesse.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">COLTESSE</span>
       </a>
     </div>
 
     <div class="grid grid-wide">
-      <a class="tile" href="../media/uniqlo-full.mp4" data-film="../media/uniqlo-full.mp4" data-credit="music produced under the supervision of BRUIT" aria-label="Uniqlo — Opéra">
+      <a class="tile" href="../media/uniqlo-full.mp4" data-film="../media/uniqlo-full.mp4" data-credit="music produced under the supervision of BRUIT" data-role="Music" aria-label="Uniqlo — Opéra">
         <video data-preview src="../media/uniqlo.mp4" poster="../media/uniqlo.jpg" muted loop playsinline preload="none"></video>
         <span class="tile-label" aria-hidden="true">UNIQLO</span>
       </a>
-      <a class="tile" href="../media/court-metrage-full.mp4" data-film="../media/court-metrage-full.mp4" aria-label="Short film — Klara">
+      <a class="tile" href="../media/court-metrage-full.mp4" data-film="../media/court-metrage-full.mp4" data-role="Music" aria-label="Short film — Klara">
         <video data-preview src="../media/court-metrage.mp4" poster="../media/court-metrage.jpg" muted loop playsinline preload="none"></video>
       </a>
     </div>
@@ -108,9 +108,22 @@
     <button class="lb-close" type="button" aria-label="Close">
       <svg viewBox="0 0 72 72" aria-hidden="true"><path d="M12 12 60 60M60 12 12 60"/></svg>
     </button>
+    <button class="lb-nav lb-prev" type="button" aria-label="Previous film">
+      <svg viewBox="0 0 40 72" aria-hidden="true"><path d="M34 4 6 36l28 32"/></svg>
+    </button>
+    <button class="lb-nav lb-next" type="button" aria-label="Next film">
+      <svg viewBox="0 0 40 72" aria-hidden="true"><path d="M6 4l28 32L6 68"/></svg>
+    </button>
     <div class="lb-stage">
+      <div class="lb-head">
+        <p class="lb-title"></p>
+        <p class="lb-role"></p>
+      </div>
       <div class="lb-frame"></div>
-      <p class="lb-caption"></p>
+      <div class="lb-foot">
+        <p class="lb-count"></p>
+        <p class="lb-caption"></p>
+      </div>
     </div>
   </dialog>
 
