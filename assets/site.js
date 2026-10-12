@@ -85,6 +85,55 @@
     if (store.get("db-sound") === "1") setSound(true);
   }
 
+  /* ---------- Fond teinté : au survol, le fond prend la couleur de la vidéo ---------- */
+
+  var sampler = document.createElement("canvas");
+  sampler.width = sampler.height = 12;
+  var sctx = sampler.getContext("2d", { willReadFrequently: true });
+  var baseBg = getComputedStyle(root).getPropertyValue("--bg").trim() || "#c7c7c1";
+  var untintTimer = 0;
+  var hsl = function (r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, h = 0, sat = 0;
+    if (max !== min) {
+      var d = max - min;
+      sat = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      h = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+      h *= 60;
+    }
+    return [h, sat, l];
+  };
+  var tint = function (v) {
+    if (!v) return;
+    clearTimeout(untintTimer);
+    var src = v.readyState >= 2 ? v : null;
+    if (!src) {
+      // Vidéo pas encore prête : on prend son image d'attente
+      var img = new Image();
+      img.onload = function () { sample(img); };
+      img.src = v.poster;
+      return;
+    }
+    sample(src);
+  };
+  var sample = function (src) {
+    try {
+      sctx.drawImage(src, 0, 0, 12, 12);
+      var d = sctx.getImageData(0, 0, 12, 12).data, r = 0, g = 0, b = 0, n = 0;
+      for (var i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
+      var c = hsl(r / n, g / n, b / n);
+      // Teinte de la vidéo, saturation adoucie, luminosité bornée pour garder le texte blanc lisible
+      var sat = Math.min(c[1] * 0.85, 0.55), light = Math.max(0.3, Math.min(c[2], 0.6));
+      root.style.setProperty("--bg", "hsl(" + c[0].toFixed(0) + " " + (sat * 100).toFixed(0) + "% " + (light * 100).toFixed(0) + "%)");
+    } catch (e) { /* image illisible : le fond reste gris */ }
+  };
+  var untint = function () {
+    clearTimeout(untintTimer);
+    // Court délai : passer d'une vidéo à la voisine ne fait pas clignoter le gris
+    untintTimer = setTimeout(function () { root.style.setProperty("--bg", baseBg); }, 140);
+  };
+  var canTint = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
   /* ---------- Lecture plein écran des films (media/*-full.mp4) ---------- */
 
   var lb = document.querySelector(".lightbox");
@@ -152,6 +201,8 @@
     };
 
     var open = function (tile) {
+      clearTimeout(untintTimer);
+      root.style.setProperty("--bg", baseBg);
       show(tiles.indexOf(tile));
       if (!lb.open) lb.showModal();
       root.style.overflow = "hidden";
@@ -205,8 +256,12 @@
         open(tile);
       });
       var v = tile.querySelector("video[data-preview]");
-      tile.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") hearIn(v); });
-      tile.addEventListener("pointerleave", function () { hearOut(v); });
+      tile.addEventListener("pointerenter", function (e) {
+        if (e.pointerType !== "mouse") return;
+        hearIn(v);
+        if (canTint) tint(v);
+      });
+      tile.addEventListener("pointerleave", function () { hearOut(v); if (canTint) untint(); });
     });
   }
 
@@ -240,10 +295,12 @@
         floatVideo.muted = true;
         play(floatVideo);
         hearIn(floatVideo);
+        tint(src);
         floatBox.classList.add("is-on");
       });
       b.addEventListener("pointerleave", function () {
         hearOut(floatVideo);
+        untint();
         floatBox.classList.remove("is-on");
       });
     });
