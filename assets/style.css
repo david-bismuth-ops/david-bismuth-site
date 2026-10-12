@@ -140,12 +140,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .site-header { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease; }
 
-/* Léger flou derrière chaque mot fixe, aux bords fondus : invisible sur le gris uni,
-   il adoucit l'image juste sous le texte quand celui-ci passe sur une vidéo (sauf l'accueil) */
-.site-header .h-nav a, .site-header .h-nav button, .site-contact a { position: relative; }
-body:not(.page-home) .site-header a::before,
-body:not(.page-home) .site-header button::before,
-body:not(.page-home) .site-contact a::before {
+/* Léger flou d'arrière-plan, aux bords fondus, derrière le texte fixe : invisible sur le gris uni,
+   il adoucit la vidéo juste sous le texte (sauf l'accueil). Un seul flou par groupe de mots,
+   pour ne pas laisser de trous entre les mots voisins. */
+body:not(.page-home) .h-role::before,
+body:not(.page-home) .h-name::before,
+body:not(.page-home) .h-nav::before,
+body:not(.page-home) .site-contact::before {
   content: "";
   position: absolute;
   inset: -0.45em -0.7em;
