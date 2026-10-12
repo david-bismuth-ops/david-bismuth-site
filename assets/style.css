@@ -33,13 +33,12 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { background: var(--bg); color-scheme: light; transition: background-color 0.8s ease; }
+html { background: var(--bg); color-scheme: light; }
 
 body {
   margin: 0;
   min-height: 100vh;
   background: var(--bg);
-  transition: background-color 0.8s ease;
   color: var(--paper);
   font-family: var(--font);
   font-weight: 500;
@@ -245,35 +244,15 @@ body:not(.page-home) .site-contact a::before {
   left: calc(82 * var(--u));
   top: 50%;
   z-index: 30;
-  display: grid;
-  place-items: center;
-  width: max(84px, calc(150 * var(--u)));
-  height: max(84px, calc(150 * var(--u)));
-  margin-top: min(-42px, calc(-75 * var(--u)));
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  border-radius: 50%;
-  font-size: max(12px, calc(21 * var(--u)));
-  line-height: 1.15;
-  text-align: center;
-  letter-spacing: -0.01em;
-  transition: background 0.35s ease, color 0.35s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateY(-50%);
+  font-size: calc(25 * var(--u));
+  line-height: calc(31 * var(--u));
+  letter-spacing: -0.025em;
 }
-.browse-list::after {
-  content: "";
-  position: absolute;
-  left: -14px;
-  top: 50%;
-  width: 6px;
-  height: 6px;
-  margin-top: -3px;
-  border-radius: 50%;
-  background: var(--paper);
-}
-.browse-list:hover { background: var(--paper); color: var(--ink); transform: scale(1.06); }
 .slider-count {
   position: fixed;
   left: calc(82 * var(--u));
-  top: calc(50% + max(56px, calc(100 * var(--u))));
+  top: calc(50% + calc(30 * var(--u)));
   z-index: 30;
   margin: 0;
   font-size: max(12px, calc(21 * var(--u)));
@@ -648,9 +627,8 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .slide-title { right: 16px; bottom: 64px; max-width: calc(100vw - 32px); }
   .st-big { font-size: 40px; }
   .st-sub { margin-top: 4px !important; font-size: 14px; }
-  .browse-list { left: auto; right: 16px; top: 78px; margin-top: 0; width: 72px; height: 72px; font-size: 11px; }
-  .browse-list::after { display: none; }
-  .slider-count { left: auto; right: 16px; top: 160px; font-size: 12px; }
+  .browse-list { left: auto; right: 16px; top: 74px; transform: none; font-size: 15px; line-height: 20px; }
+  .slider-count { left: auto; right: 16px; top: 96px; font-size: 12px; }
   .slider-arrow { display: none; }
   .lb-stage { padding: 0 0 64px; }
   .lb-head { padding: 0 64px 0 16px; flex-direction: column; gap: 2px; margin-bottom: 10px; }

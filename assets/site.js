@@ -45,22 +45,49 @@
   var soundBtn = document.querySelector(".sound-toggle");
   var sliderApi = null;
   var soundOn = false;
-  var fades = new WeakMap();
+  // Les fondus passent par Web Audio : une rampe de gain continue, comme un fader.
+  // (Changer « volume » par petites marches produisait un léger crépitement.)
+  var audioCtxNode = null, gains = new WeakMap(), muteTimers = new WeakMap();
+  var audioCtx = function () {
+    var C = window.AudioContext || window.webkitAudioContext;
+    if (!audioCtxNode && C) audioCtxNode = new C();
+    if (audioCtxNode && audioCtxNode.state === "suspended") audioCtxNode.resume();
+    return audioCtxNode;
+  };
+  // Le moteur audio ne démarre qu'après un geste : le premier clic ou la première touche le réveille
+  ["pointerdown", "keydown"].forEach(function (ev) {
+    document.addEventListener(ev, function () { if (audioCtxNode && audioCtxNode.state === "suspended") audioCtxNode.resume(); }, { passive: true });
+  });
+  var gainOf = function (v) {
+    var g = gains.get(v);
+    if (!g && audioCtx()) {
+      try {
+        g = audioCtxNode.createGain();
+        g.gain.value = 0;
+        audioCtxNode.createMediaElementSource(v).connect(g);
+        g.connect(audioCtxNode.destination);
+        gains.set(v, g);
+      } catch (e) { g = null; }
+    }
+    return g;
+  };
   var fadeTo = function (v, target, ms) {
-    clearInterval(fades.get(v));
+    var g = gainOf(v);
+    clearTimeout(muteTimers.get(v));
     if (target > 0) {
-      if (v.muted) { v.volume = 0; v.muted = false; }
+      v.volume = 1;
+      if (v.muted) v.muted = false;
       if (v.paused) play(v);
     }
-    var from = v.volume, t0 = performance.now();
-    fades.set(v, setInterval(function () {
-      var k = Math.min(1, (performance.now() - t0) / ms);
-      v.volume = from + (target - from) * k;
-      if (k === 1) {
-        clearInterval(fades.get(v));
-        if (target === 0) v.muted = true;
-      }
-    }, 16));
+    if (!g) { v.volume = target; if (target === 0) v.muted = true; return; }
+    var t = audioCtxNode.currentTime, p = g.gain;
+    p.cancelScheduledValues(t);
+    p.setValueAtTime(p.value, t);
+    // courbe douce : la rampe linéaire de gain sonne naturelle sur ces durées
+    p.linearRampToValueAtTime(target, t + ms / 1000);
+    if (target === 0) {
+      muteTimers.set(v, setTimeout(function () { v.muted = true; }, ms + 60));
+    }
   };
   var setSound = function (on) {
     soundOn = on;
@@ -81,60 +108,12 @@
   var hearOut = function (v) { if (v && !v.muted) fadeTo(v, 0, 300); };
   if (soundBtn) {
     soundBtn.addEventListener("click", function () {
+      audioCtx();
       setSound(!soundOn);
       store.set("db-sound", soundOn ? "1" : "0");
     });
     if (store.get("db-sound") === "1") setSound(true);
   }
-
-  /* ---------- Fond teinté : au survol, le fond prend la couleur de la vidéo ---------- */
-
-  var sampler = document.createElement("canvas");
-  sampler.width = sampler.height = 12;
-  var sctx = sampler.getContext("2d", { willReadFrequently: true });
-  var baseBg = getComputedStyle(root).getPropertyValue("--bg").trim() || "#c7c7c1";
-  var untintTimer = 0;
-  var hsl = function (r, g, b) {
-    r /= 255; g /= 255; b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, h = 0, sat = 0;
-    if (max !== min) {
-      var d = max - min;
-      sat = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      h = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
-      h *= 60;
-    }
-    return [h, sat, l];
-  };
-  var tint = function (v) {
-    if (!v) return;
-    clearTimeout(untintTimer);
-    var src = v.readyState >= 2 ? v : null;
-    if (!src) {
-      // Vidéo pas encore prête : on prend son image d'attente
-      var img = new Image();
-      img.onload = function () { sample(img); };
-      img.src = v.poster;
-      return;
-    }
-    sample(src);
-  };
-  var sample = function (src) {
-    try {
-      sctx.drawImage(src, 0, 0, 12, 12);
-      var d = sctx.getImageData(0, 0, 12, 12).data, r = 0, g = 0, b = 0, n = 0;
-      for (var i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
-      var c = hsl(r / n, g / n, b / n);
-      // Teinte de la vidéo, saturation adoucie, luminosité bornée pour garder le texte blanc lisible
-      var sat = Math.min(c[1] * 0.85, 0.55), light = Math.max(0.3, Math.min(c[2], 0.6));
-      root.style.setProperty("--bg", "hsl(" + c[0].toFixed(0) + " " + (sat * 100).toFixed(0) + "% " + (light * 100).toFixed(0) + "%)");
-    } catch (e) { /* image illisible : le fond reste gris */ }
-  };
-  var untint = function () {
-    clearTimeout(untintTimer);
-    // Court délai : passer d'une vidéo à la voisine ne fait pas clignoter le gris
-    untintTimer = setTimeout(function () { root.style.setProperty("--bg", baseBg); }, 140);
-  };
-  var canTint = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   /* ---------- Lecture plein écran des films (media/*-full.mp4) ---------- */
 
@@ -203,8 +182,6 @@
     };
 
     var open = function (tile) {
-      clearTimeout(untintTimer);
-      root.style.setProperty("--bg", baseBg);
       show(tiles.indexOf(tile));
       if (!lb.open) lb.showModal();
       root.style.overflow = "hidden";
@@ -258,12 +235,8 @@
         open(tile);
       });
       var v = tile.querySelector("video[data-preview]");
-      tile.addEventListener("pointerenter", function (e) {
-        if (e.pointerType !== "mouse") return;
-        hearIn(v);
-        if (canTint) tint(v);
-      });
-      tile.addEventListener("pointerleave", function () { hearOut(v); if (canTint) untint(); });
+      tile.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") hearIn(v); });
+      tile.addEventListener("pointerleave", function () { hearOut(v); });
     });
   }
 
@@ -401,12 +374,10 @@
         floatVideo.muted = true;
         play(floatVideo);
         hearIn(floatVideo);
-        tint(src);
         floatBox.classList.add("is-on");
       });
       b.addEventListener("pointerleave", function () {
         hearOut(floatVideo);
-        untint();
         floatBox.classList.remove("is-on");
       });
     });
