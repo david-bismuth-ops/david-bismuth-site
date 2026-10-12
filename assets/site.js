@@ -82,6 +82,16 @@
     // Un clic hors du film ferme la lecture
     lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
 
+    // Liens texte « ▶ watch… » : data-play = rang de la tuile à ouvrir
+    document.querySelectorAll("[data-play]").forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        var tile = document.querySelectorAll(".tile[data-film]")[+link.dataset.play];
+        if (!tile || e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault();
+        open(tile);
+      });
+    });
+
     document.querySelectorAll(".tile[data-film]").forEach(function (tile) {
       tile.addEventListener("click", function (e) {
         if (e.metaKey || e.ctrlKey || e.shiftKey) return; // ouvrir dans un onglet reste possible

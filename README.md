@@ -10,7 +10,9 @@ Aucun outil à installer : ce sont des fichiers HTML/CSS/JS à déposer tels que
 index.html            accueil (vidéo plein écran → projets)
 projects/index.html   grille principale (8 projets)
 other/index.html      projets additionnels (8) + lecteur audio
+games/index.html      jeu vidéo (GRAB GRAB, Ravenswatch)
 about/index.html      à propos
+cv/                   CV global EN et FR (sans téléphone), liés dans le pied de page et sur About
 welcome/              redirige l'ancienne adresse /welcome/ vers l'accueil
 assets/style.css      toute la mise en page (mesures reprises de la maquette Readymag en 1920 px)
 assets/site.js        aperçus vidéo, lecture plein écran, lecteur audio
@@ -73,3 +75,11 @@ L'original utilise **Aktiv Grotesk**, une police Adobe Fonts. Avec un abonnement
 python3 -m http.server 8765
 ```
 Ouvrir ensuite http://localhost:8765.
+
+## Mettre à jour le CV
+
+Remplacer `cv/David-Bismuth_CV_EN.pdf` (et `_FR`) par le nouveau PDF en gardant **le même nom de fichier**, puis faire `git add . && git commit -m "CV" && git push`.
+
+## Vidéo GRAB GRAB
+
+`media/grab-grab-full.mp4` vient de la capture « grab_sound » (Drive). Le son de la capture était à −51,6 LUFS, il a été remonté de +33 dB avec un limiteur (résultat : −18,9 LUFS).
