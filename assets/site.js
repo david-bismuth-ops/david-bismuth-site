@@ -2,8 +2,6 @@
 (function () {
   "use strict";
 
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   /* ---------- Échelle 1920 calculée sans la barre de défilement (comme Readymag) ---------- */
 
   var root = document.documentElement;
@@ -14,10 +12,11 @@
   setScale();
   window.addEventListener("resize", setScale);
 
-  /* ---------- Aperçus vidéo : lecture seulement quand ils sont à l'écran ---------- */
+  /* ---------- Aperçus vidéo : lecture seulement quand ils sont à l'écran ----------
+     Ils jouent même avec « Réduire les animations » : ce sont des films muets, le contenu du site. */
 
   var previews = document.querySelectorAll("video[data-preview]");
-  if (previews.length && !reduceMotion && "IntersectionObserver" in window) {
+  if (previews.length && "IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         var v = e.target;
@@ -71,15 +70,13 @@
       frame.textContent = ""; // coupe le son immédiatement
       document.documentElement.style.overflow = "";
       if (lastTile) lastTile.focus({ preventScroll: true });
-      if (!reduceMotion) {
-        previews.forEach(function (v) {
-          var r = v.getBoundingClientRect();
-          if (r.bottom > 0 && r.top < innerHeight) {
-            var p = v.play();
-            if (p && p.catch) p.catch(function () {});
-          }
-        });
-      }
+      previews.forEach(function (v) {
+        var r = v.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < innerHeight) {
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+      });
     });
     lb.querySelector(".lb-close").addEventListener("click", close);
     // Un clic hors du film ferme la lecture
