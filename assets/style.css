@@ -109,13 +109,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   letter-spacing: -0.025em;
 }
 .site-header .h-nav a, .site-header .h-nav button { position: static; }
-.sound-toggle { display: inline-flex; align-items: baseline; gap: 0.35em; font-size: inherit; letter-spacing: inherit; }
-.sound-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 0.7em; }
-.sound-bars i { display: block; width: 2px; height: 30%; background: currentColor; }
-.sound-toggle[aria-pressed="true"] .sound-bars i { animation: bars 0.9s ease-in-out infinite alternate; }
-.sound-toggle[aria-pressed="true"] .sound-bars i:nth-child(2) { animation-delay: -0.3s; }
-.sound-toggle[aria-pressed="true"] .sound-bars i:nth-child(3) { animation-delay: -0.6s; }
-@keyframes bars { from { height: 20%; } to { height: 100%; } }
+.sound-toggle { font-size: inherit; letter-spacing: inherit; }
 @media (hover: none) { .sound-toggle, .tile-reel .tile-label { display: none; } }
 
 /* ---------- Liens de contact, fixés en bas à gauche ---------- */
@@ -145,6 +139,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ---------- En-tête : s'efface en descendant, revient en remontant ---------- */
 
 .site-header { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease; }
+
+/* Pastille couleur du fond derrière chaque mot fixe : invisible sur le gris,
+   elle garde le texte lisible quand il passe au-dessus d'une vidéo (sauf l'accueil) */
+body:not(.page-home) .site-header a,
+body:not(.page-home) .site-header button,
+body:not(.page-home) .site-contact a {
+  background-color: var(--bg);
+  padding: 0.12em 0.32em;
+  margin: -0.12em -0.32em;
+}
 .header-hidden .site-header { transform: translateY(-100%); opacity: 0; }
 
 /* ---------- Transitions entre les pages et apparition des tuiles ---------- */
