@@ -536,6 +536,12 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   letter-spacing: -0.025em;
   text-transform: lowercase;
 }
+.about-lang {
+  margin: calc(17 * var(--u)) 0 0;
+  font-size: calc(25 * var(--u));
+  line-height: calc(31 * var(--u));
+  letter-spacing: -0.025em;
+}
 .about-phone {
   margin: calc(17 * var(--u)) 0 0;
   font-size: calc(25 * var(--u));
@@ -687,7 +693,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .about-text { font-size: 18px; line-height: 23px; letter-spacing: -0.02em; }
   .about-text p { margin-bottom: 18px; }
   .about-links { gap: 14px; margin-top: 28px; font-size: 15px; line-height: 20px; }
-  .about-phone { margin-top: 8px; font-size: 15px; line-height: 20px; }
+  .about-phone, .about-lang { margin-top: 8px; font-size: 15px; line-height: 20px; }
 
   .lb-stage { width: 100vw; }
   .lb-close { top: 10px; right: 10px; }
