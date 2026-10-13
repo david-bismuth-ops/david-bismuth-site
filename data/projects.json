@@ -16,7 +16,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for the Loro Piana Spring Summer 2025 film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale du film Loro Piana Printemps-Été 2025. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -35,7 +34,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Music, sound design and mix for ZLAN, a film by ZQSD Production.",
-   "description_fr": "Musique, sound design et mixage de ZLAN, un film de ZQSD Production.",
    "upload_date": "2026-10-13",
    "extra_link": null
   },
@@ -54,7 +52,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Music, sound design and mix for Myrrhe, a film by Kalaïd.",
-   "description_fr": "Musique, sound design et mixage de Myrrhe, un film de Kalaïd.",
    "upload_date": "2026-10-13",
    "extra_link": null
   },
@@ -73,7 +70,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for the Kenzo × Asics film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale du film Kenzo × Asics. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -92,7 +88,6 @@
    "portrait": true,
    "fit": true,
    "description_en": "Original music for the Maison Margiela Christmas film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale du film de Noël de Maison Margiela. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -111,7 +106,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for a Purple film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale d’un film Purple. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -130,7 +124,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Adaptive music, sound effects and mix for GRAB GRAB, a 3D multiplayer arena game in development (Godot), with the music and sound implemented in Wwise. The video shows gameplay alongside the live Wwise session.",
-   "description_fr": "Musique adaptative, effets sonores et mixage de GRAB GRAB, jeu d’arène multijoueur en 3D en développement (Godot), avec une intégration audio dans Wwise. La vidéo montre le jeu et la session Wwise en direct.",
    "upload_date": "2026-10-12",
    "extra_link": [
     "../../games/",
@@ -152,7 +145,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for the Mellerio Talisman film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale du film Talisman de Mellerio. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -171,7 +163,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Music, sound design and mix for the Wethenew film I'm the New.",
-   "description_fr": "Musique, sound design et mixage du film Wethenew « I’m the New ».",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -190,7 +181,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for the Loro Piana Spring Summer 2024 film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale du film Loro Piana Printemps-Été 2024. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -209,7 +199,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for a Sandro film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale d’un film Sandro. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -228,7 +217,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for the Uniqlo Opéra film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale du film Uniqlo « Opéra ». Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -247,7 +235,6 @@
    "portrait": true,
    "fit": true,
    "description_en": "Sound design for a Cartier film, produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Sound design d’un film Cartier, réalisé sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -266,7 +253,6 @@
    "portrait": true,
    "fit": true,
    "description_en": "Original music for a Vogue film. Music coproduced with the Paris sound agency BRUIT and under their supervision.",
-   "description_fr": "Musique originale d’un film Vogue. Musique coproduite avec l’agence sonore parisienne BRUIT et sous sa supervision.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -285,7 +271,6 @@
    "portrait": true,
    "fit": true,
    "description_en": "Original music for a Lacoste film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale d’un film Lacoste. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -304,7 +289,6 @@
    "portrait": true,
    "fit": true,
    "description_en": "Original music for a Coltesse film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale d’un film Coltesse. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -323,7 +307,6 @@
    "portrait": true,
    "fit": true,
    "description_en": "Original music for the Mellerio film with Hugo Marchand. Music coproduced with the Paris sound agency BRUIT and under their supervision.",
-   "description_fr": "Musique originale du film Mellerio avec Hugo Marchand. Musique coproduite avec l’agence sonore parisienne BRUIT et sous sa supervision.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -342,7 +325,6 @@
    "portrait": false,
    "fit": true,
    "description_en": "Original music for a Sandro lookbook film. Music produced under the supervision of the Paris sound agency BRUIT.",
-   "description_fr": "Musique originale d’un film lookbook Sandro. Musique produite sous la supervision de l’agence sonore parisienne BRUIT.",
    "upload_date": "2026-10-09",
    "extra_link": null
   },
@@ -361,7 +343,6 @@
    "portrait": false,
    "fit": false,
    "description_en": "Original music for Klara, a short film.",
-   "description_fr": "Musique originale du court métrage Klara.",
    "upload_date": "2026-10-09",
    "extra_link": null
   }

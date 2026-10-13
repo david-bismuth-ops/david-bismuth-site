@@ -452,7 +452,6 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   letter-spacing: -0.012em;
 }
 .project-text p { margin: 0 0 calc(16 * var(--u)); }
-.project-text p[lang="fr"] { opacity: 0.65; }
 .project-extra a { color: var(--paper); }
 .project-pager {
   display: flex;

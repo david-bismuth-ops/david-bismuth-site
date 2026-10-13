@@ -98,10 +98,10 @@ Chaque `<section class="slide">` de `index.html` est un écran, dans l'ordre du 
 
 ## Pages projet
 
-Chaque projet a sa propre page (`projects/<page>/`), avec le film, le rôle, un court texte en anglais et en français, et des liens vers le projet précédent et le suivant. Ces pages sont **générées** à partir de `data/projects.json` : ne pas les modifier à la main.
+Chaque projet a sa propre page (`projects/<page>/`), avec le film, le rôle, un court texte, et des liens vers le projet précédent et le suivant. Ces pages sont **générées** à partir de `data/projects.json` : ne pas les modifier à la main.
 
 Pour ajouter les crédits (année, agence, réalisateur) ou corriger un texte :
-1. Remplir les champs `year`, `agency`, `director` (ou modifier `description_en` / `description_fr`) dans `data/projects.json`. Les champs remplis s'affichent automatiquement.
+1. Remplir les champs `year`, `agency`, `director` (ou modifier `description_en`) dans `data/projects.json`. Les champs remplis s'affichent automatiquement.
 2. Lancer `python3 tools/build_project_pages.py`, qui réécrit les pages et met à jour `sitemap.xml`.
 3. Faire `git add . && git commit -m "Crédits" && git push`.
 
