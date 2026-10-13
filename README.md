@@ -95,3 +95,14 @@ Les aperçus (`media/<projet>.mp4`, 12 s) ont maintenant une piste son, alignée
 ## Accueil : un projet par écran
 
 Chaque `<section class="slide">` de `index.html` est un écran, dans l'ordre du défilement. Le grand titre se trouve dans `.st-big`, la ligne en dessous dans `.st-sub`. Le film lu (en muet, avec le son si « sound on ») est donné par `data-src`. Pour un film vertical ou carré, ajouter la classe `is-fit` et `style="--poster: url('/media/<projet>.jpg')"` (fond flou). Un clic ouvre le film en plein écran avec le son.
+
+## Pages projet
+
+Chaque projet a sa propre page (`projects/<page>/`), avec le film, le rôle, un court texte en anglais et en français, et des liens vers le projet précédent et le suivant. Ces pages sont **générées** à partir de `data/projects.json` : ne pas les modifier à la main.
+
+Pour ajouter les crédits (année, agence, réalisateur) ou corriger un texte :
+1. Remplir les champs `year`, `agency`, `director` (ou modifier `description_en` / `description_fr`) dans `data/projects.json`. Les champs remplis s'affichent automatiquement.
+2. Lancer `python3 tools/build_project_pages.py`, qui réécrit les pages et met à jour `sitemap.xml`.
+3. Faire `git add . && git commit -m "Crédits" && git push`.
+
+Pour un nouveau projet, ajouter une entrée dans le JSON, puis sa tuile dans `projects/index.html` (avec `data-page`) et son écran dans `index.html`.

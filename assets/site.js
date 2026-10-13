@@ -167,6 +167,16 @@
       titleBox.textContent = tile.getAttribute("aria-label") || "";
       roleBox.textContent = tile.dataset.role || "";
       caption.textContent = tile.dataset.credit || "";
+      // Lien vers la page du projet (si elle existe)
+      var pageLink = lb.querySelector(".lb-page");
+      if (!pageLink) {
+        pageLink = document.createElement("a");
+        pageLink.className = "lb-page ul";
+        pageLink.textContent = "project page →";
+        lb.querySelector(".lb-foot").appendChild(pageLink);
+      }
+      pageLink.hidden = !tile.dataset.page;
+      if (tile.dataset.page) pageLink.href = tile.dataset.page;
       countBox.textContent = tiles.length > 1 ? pad(index + 1) + " / " + pad(tiles.length) : "";
       lb.classList.toggle("is-single", tiles.length < 2);
       // Showreel : le nom du film en cours s'affiche au fil de la lecture

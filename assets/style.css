@@ -415,6 +415,56 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 .index-float.is-on { opacity: 1; scale: 1; }
 .index-float video { width: 100%; height: 100%; object-fit: cover; }
 
+/* ---------- Page d'un projet : le film, puis titre, crédits et texte ---------- */
+
+.project { padding: calc(130 * var(--u)) calc(56 * var(--u)) calc(170 * var(--u)) calc(64 * var(--u)); }
+.project-back { margin: 0 0 calc(24 * var(--u)); font-size: calc(28 * var(--u)); letter-spacing: -0.025em; }
+/* Toute la largeur ; hauteur plafonnée à 80 % de l'écran (le film reste entier, bandes noires si besoin) */
+.project-player { position: relative; height: min(calc((100vw - 120 * var(--u)) * 9 / 16), 80vh); background: #000; }
+.project-player video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.project-player.is-portrait { height: 80vh; width: calc(80vh * 9 / 16); margin: 0 auto; }
+.project-info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: calc(40 * var(--u));
+  margin-top: calc(44 * var(--u));
+}
+.project-head h1 { margin: 0; font-size: calc(96 * var(--u)); line-height: 1.02; font-weight: 500; letter-spacing: -0.03em; }
+.project-sub { margin: calc(8 * var(--u)) 0 0; font-size: calc(36 * var(--u)); letter-spacing: -0.02em; }
+.project-credit { margin: calc(14 * var(--u)) 0 0; font-size: calc(26 * var(--u)); color: var(--ink); opacity: 0.65; }
+.project-credits {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: calc(6 * var(--u)) calc(26 * var(--u));
+  margin: calc(12 * var(--u)) 0 0;
+  font-size: calc(28 * var(--u));
+  letter-spacing: -0.02em;
+}
+.project-credits dt { color: var(--ink); opacity: 0.6; }
+.project-credits dd { margin: 0; }
+.project-text {
+  max-width: calc(1150 * var(--u));
+  margin-top: calc(40 * var(--u));
+  color: var(--ink);
+  font-size: calc(30 * var(--u));
+  line-height: 1.4;
+  letter-spacing: -0.012em;
+}
+.project-text p { margin: 0 0 calc(16 * var(--u)); }
+.project-text p[lang="fr"] { opacity: 0.65; }
+.project-extra a { color: var(--paper); }
+.project-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(40 * var(--u));
+  margin-top: calc(80 * var(--u));
+  padding-top: calc(24 * var(--u));
+  border-top: 1px solid rgba(255, 255, 255, 0.55);
+  font-size: calc(28 * var(--u));
+  letter-spacing: -0.02em;
+}
+
 /* ---------- Page « games » : média à gauche, texte à droite ---------- */
 
 .game {
@@ -588,6 +638,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 .lb-title { margin: 0; font-size: max(17px, calc(31 * var(--u))); font-weight: 700; letter-spacing: -0.017em; }
 .lb-role { margin: 0; font-size: max(15px, calc(28 * var(--u))); letter-spacing: -0.025em; opacity: 0.85; }
 .lb-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
+.lb-page { order: 3; margin-top: 14px; font-size: max(14px, calc(25 * var(--u))); letter-spacing: -0.02em; white-space: nowrap; }
 .lb-count { margin: 14px 0 0; font-size: max(14px, calc(25 * var(--u))); font-variant-numeric: tabular-nums; opacity: 0.85; }
 .lb-frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
 .lb-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
@@ -681,6 +732,17 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .player { margin-top: 40px; }
 
   .game { grid-template-columns: 1fr; row-gap: 16px; margin: 0 16px 56px; }
+
+  .project { padding: 92px 16px 90px; }
+  .project-back, .project-credits, .project-pager { font-size: 15px; }
+  .project-player { height: calc((100vw - 32px) * 9 / 16); }
+  .project-player.is-portrait { height: 70vh; width: min(100%, calc(70vh * 9 / 16)); }
+  .project-info { grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+  .project-head h1 { font-size: 38px; }
+  .project-sub { font-size: 18px; }
+  .project-credit { font-size: 14px; }
+  .project-text { font-size: 16px; margin-top: 18px; }
+  .project-pager { flex-direction: column; gap: 10px; margin-top: 36px; }
   .game-embed { aspect-ratio: auto; height: 420px; }
   .game-text { font-size: 16px; }
   .game-text h2 { margin: 0 0 6px; font-size: 28px; }
