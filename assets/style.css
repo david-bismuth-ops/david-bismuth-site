@@ -20,7 +20,7 @@
 }
 
 :root {
-  --bg: #c7c7c1;
+  --bg: #b5b5ae;
   --paper: #ffffff;
   --ink: #000000;
   --rail: #a6a6a6;
@@ -104,8 +104,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   display: flex;
   gap: calc(21 * var(--u));
   pointer-events: auto;
-  font-size: calc(25 * var(--u));
-  line-height: calc(31 * var(--u));
+  font-size: calc(28 * var(--u));
+  line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
 .site-header .h-nav a, .site-header .h-nav button { position: static; }
@@ -121,8 +121,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   z-index: 40;
   display: flex;
   gap: calc(21 * var(--u));
-  font-size: calc(25 * var(--u));
-  line-height: calc(31 * var(--u));
+  font-size: calc(28 * var(--u));
+  line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
   text-transform: lowercase;
 }
@@ -236,7 +236,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .slider-count {
   margin: calc(8 * var(--u)) 0 0;
-  font-size: calc(19 * var(--u));
+  font-size: calc(22 * var(--u));
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
   opacity: 0.8;
@@ -245,7 +245,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .home-list button {
   display: block;
   padding: calc(3 * var(--u)) 0;
-  font-size: calc(20 * var(--u));
+  font-size: calc(23 * var(--u));
   line-height: 1.25;
   letter-spacing: -0.01em;
   text-align: left;
@@ -296,7 +296,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   display: block;
   overflow: hidden;
   aspect-ratio: 876 / 490;
-  background: #b9b9b2;
+  background: #a8a8a1;
 }
 .tile video, .tile img {
   position: absolute;
@@ -349,7 +349,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   left: calc(28 * var(--u));
   bottom: calc(22 * var(--u));
   z-index: 2;
-  font-size: max(13px, calc(25 * var(--u)));
+  font-size: max(14px, calc(28 * var(--u)));
   font-variant-numeric: tabular-nums;
 }
 
@@ -373,7 +373,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   justify-content: flex-end;
   gap: calc(28 * var(--u));
   margin: 0 calc(56 * var(--u)) calc(26 * var(--u)) 0;
-  font-size: calc(25 * var(--u));
+  font-size: calc(28 * var(--u));
   letter-spacing: -0.025em;
 }
 .view-switch button { opacity: 0.55; transition: opacity 0.2s; }
@@ -392,9 +392,9 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   text-align: left;
   transition: padding 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s;
 }
-.work-index .ix-num { font-size: calc(22 * var(--u)); font-variant-numeric: tabular-nums; opacity: 0.6; }
+.work-index .ix-num { font-size: calc(24 * var(--u)); font-variant-numeric: tabular-nums; opacity: 0.6; }
 .work-index .ix-title { font-size: calc(63 * var(--u)); line-height: 1.1; letter-spacing: -0.015em; }
-.work-index .ix-role { font-size: calc(25 * var(--u)); color: var(--ink); opacity: 0.65; }
+.work-index .ix-role { font-size: calc(28 * var(--u)); color: var(--ink); opacity: 0.65; }
 .work-index:hover button { opacity: 0.45; }
 .work-index button:hover, .work-index button:focus-visible { opacity: 1; padding-left: calc(24 * var(--u)); }
 .index-float {
@@ -405,7 +405,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   width: calc(460 * var(--u));
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #b9b9b2;
+  background: #a8a8a1;
   pointer-events: none;
   opacity: 0;
   scale: 0.92;
@@ -427,7 +427,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 /* Lecteur Bandcamp aux couleurs du site (fond gris, liens blancs), sans cadre autour */
 .game-embed { aspect-ratio: 876 / 490; }
 .game-embed iframe { display: block; width: 100%; max-width: 700px; height: 100%; border: 0; }
-.game-text { color: var(--ink); font-size: calc(23 * var(--u)); line-height: 1.38; letter-spacing: -0.01em; }
+.game-text { color: var(--ink); font-size: calc(26 * var(--u)); line-height: 1.38; letter-spacing: -0.01em; }
 .game-text h2 {
   margin: calc(-6 * var(--u)) 0 calc(10 * var(--u));
   color: var(--paper);
@@ -435,12 +435,12 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   line-height: 1;
   font-weight: 500;
 }
-.game-role { margin: 0; color: var(--paper); font-size: calc(25 * var(--u)); }
+.game-role { margin: 0; color: var(--paper); font-size: calc(28 * var(--u)); }
 .game-meta { margin: calc(4 * var(--u)) 0 calc(22 * var(--u)); font-weight: 400; opacity: 0.6; }
 .game-text ul { margin: 0; padding-left: 1.1em; font-weight: 400; }
 .game-text li { margin-bottom: calc(8 * var(--u)); }
 .game-text strong { font-weight: 600; }
-.game-links { display: flex; flex-wrap: wrap; gap: calc(8 * var(--u)) calc(28 * var(--u)); margin: calc(24 * var(--u)) 0 0; color: var(--paper); font-size: calc(25 * var(--u)); }
+.game-links { display: flex; flex-wrap: wrap; gap: calc(8 * var(--u)) calc(28 * var(--u)); margin: calc(24 * var(--u)) 0 0; color: var(--paper); font-size: calc(28 * var(--u)); }
 
 /* ---------- Lecteur audio ---------- */
 
@@ -532,21 +532,21 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   display: flex;
   gap: calc(21 * var(--u));
   margin-top: calc(66 * var(--u));
-  font-size: calc(25 * var(--u));
-  line-height: calc(31 * var(--u));
+  font-size: calc(28 * var(--u));
+  line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
   text-transform: lowercase;
 }
 .about-lang {
   margin: calc(17 * var(--u)) 0 0;
-  font-size: calc(25 * var(--u));
-  line-height: calc(31 * var(--u));
+  font-size: calc(28 * var(--u));
+  line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
 .about-phone {
   margin: calc(17 * var(--u)) 0 0;
-  font-size: calc(25 * var(--u));
-  line-height: calc(31 * var(--u));
+  font-size: calc(28 * var(--u));
+  line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
 
@@ -564,7 +564,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   color: var(--paper);
   overflow: hidden;
 }
-.lightbox::backdrop { background: rgba(199, 199, 193, 0.96); }
+.lightbox::backdrop { background: rgba(181, 181, 174, 0.96); }
 .lightbox[open] { display: grid; place-items: center; animation: fade-in 0.25s ease both; }
 .lightbox[open]::backdrop { animation: fade-in 0.25s ease both; }
 @keyframes fade-in { from { opacity: 0; } }
@@ -586,9 +586,9 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 .lb-stage { position: relative; width: min(calc(1764 * var(--u)), calc((100dvh - 260px) * 16 / 9)); }
 .lb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin: 0 0 14px; }
 .lb-title { margin: 0; font-size: max(17px, calc(31 * var(--u))); font-weight: 700; letter-spacing: -0.017em; }
-.lb-role { margin: 0; font-size: max(14px, calc(25 * var(--u))); letter-spacing: -0.025em; opacity: 0.85; }
+.lb-role { margin: 0; font-size: max(15px, calc(28 * var(--u))); letter-spacing: -0.025em; opacity: 0.85; }
 .lb-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
-.lb-count { margin: 14px 0 0; font-size: max(13px, calc(22 * var(--u))); font-variant-numeric: tabular-nums; opacity: 0.85; }
+.lb-count { margin: 14px 0 0; font-size: max(14px, calc(25 * var(--u))); font-variant-numeric: tabular-nums; opacity: 0.85; }
 .lb-frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
 .lb-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
 .lb-frame.is-portrait { aspect-ratio: 9 / 16; height: calc(100dvh - 260px); margin: 0 auto; }
@@ -597,7 +597,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   margin: 14px 0 0;
   min-height: 1.3em;
   text-align: right;
-  font-size: max(14px, calc(25 * var(--u)));
+  font-size: max(15px, calc(28 * var(--u)));
   letter-spacing: -0.03em;
 }
 .lb-close {
@@ -633,13 +633,13 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .site-header { height: 64px; }
   .h-role { left: 16px; top: 14px; font-size: 16px; line-height: 20px; }
   .h-name { left: 16px; top: 34px; font-size: 15px; line-height: 20px; }
-  .h-nav { right: 16px; top: 15px; gap: 14px; font-size: 15px; line-height: 20px; }
+  .h-nav { right: 16px; top: 15px; gap: 14px; font-size: 16px; line-height: 20px; }
   .slide-title { right: 16px; bottom: 64px; max-width: calc(100vw - 32px); }
   .st-big { font-size: 40px; }
   .st-sub { margin-top: 4px !important; font-size: 14px; }
   .home-nav { left: auto; right: 16px; top: 74px; transform: none; text-align: right; }
   .home-all { font-size: 16px; line-height: 20px; }
-  .slider-count { margin-top: 4px; font-size: 12px; }
+  .slider-count { margin-top: 4px; font-size: 13px; }
   .home-list { display: none; }
   .slider-arrow { display: none; }
   .lb-stage { padding: 0 0 64px; }
@@ -647,12 +647,12 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .lb-frame.is-portrait { width: min(100vw, calc((100dvh - 240px) * 9 / 16)); height: auto; }
   .lb-foot { padding: 0 16px; flex-direction: column; align-items: flex-start; gap: 0; }
   .lb-count { margin-top: 10px; white-space: nowrap; }
-  .lb-caption { margin-top: 2px; padding: 0; text-align: left; font-size: 13px; }
+  .lb-caption { margin-top: 2px; padding: 0; text-align: left; font-size: 14px; }
   .lb-nav { top: auto; bottom: 14px; margin: 0; width: 28px; height: 44px; }
   .lb-prev { left: 16px; }
   .lb-next { right: 16px; }
 
-  .site-contact { left: 16px; bottom: 14px; gap: 14px; font-size: 14px; line-height: 18px; }
+  .site-contact { left: 16px; bottom: 14px; gap: 14px; font-size: 15px; line-height: 19px; }
 
   .rule { margin-left: 16px; width: calc(100% - 32px); }
   .rule-top { top: 64px; }
@@ -682,9 +682,9 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 
   .game { grid-template-columns: 1fr; row-gap: 16px; margin: 0 16px 56px; }
   .game-embed { aspect-ratio: auto; height: 420px; }
-  .game-text { font-size: 15px; }
+  .game-text { font-size: 16px; }
   .game-text h2 { margin: 0 0 6px; font-size: 28px; }
-  .game-role, .game-links { font-size: 15px; }
+  .game-role, .game-links { font-size: 16px; }
   .game-meta { margin: 2px 0 12px; }
   .game-text li { margin-bottom: 6px; }
   .game-links { gap: 6px 18px; margin-top: 14px; }
@@ -693,8 +693,8 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .about-inner { min-height: 0; padding: 0; }
   .about-text { font-size: 18px; line-height: 23px; letter-spacing: -0.02em; }
   .about-text p { margin-bottom: 18px; }
-  .about-links { gap: 14px; margin-top: 28px; font-size: 15px; line-height: 20px; }
-  .about-phone, .about-lang { margin-top: 8px; font-size: 15px; line-height: 20px; }
+  .about-links { gap: 14px; margin-top: 28px; font-size: 16px; line-height: 21px; }
+  .about-phone, .about-lang { margin-top: 8px; font-size: 16px; line-height: 21px; }
 
   .lb-stage { width: 100vw; }
   .lb-close { top: 10px; right: 10px; }
