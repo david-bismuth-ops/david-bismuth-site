@@ -140,25 +140,25 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .site-header { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease; }
 
-/* Léger flou d'arrière-plan, aux bords fondus, derrière le texte fixe : invisible sur le gris uni,
-   il adoucit la vidéo juste sous le texte (sauf l'accueil). Un seul flou par groupe de mots,
-   pour ne pas laisser de trous entre les mots voisins. */
-body:not(.page-home) .h-role::before,
-body:not(.page-home) .h-name::before,
-body:not(.page-home) .h-nav::before,
-body:not(.page-home) .site-contact::before {
+/* Flou discret derrière le texte fixe, aux bords fondus : invisible sur un fond uni,
+   il adoucit juste l'image sous les mots. Un seul flou par groupe, sans trous entre les mots. */
+.h-role::before,
+.h-name::before,
+.h-nav::before,
+.site-contact::before,
+.home-nav::before {
   content: "";
   position: absolute;
-  inset: -0.45em -0.7em;
+  inset: -0.3em -0.5em;
   z-index: -1;
   pointer-events: none;
-  -webkit-backdrop-filter: blur(9px);
-  backdrop-filter: blur(9px);
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 0.6em, #000 calc(100% - 0.6em), transparent),
-                      linear-gradient(to bottom, transparent, #000 0.4em, #000 calc(100% - 0.4em), transparent);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 0.45em, #000 calc(100% - 0.45em), transparent),
+                      linear-gradient(to bottom, transparent, #000 0.28em, #000 calc(100% - 0.28em), transparent);
   -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to right, transparent, #000 0.6em, #000 calc(100% - 0.6em), transparent),
-              linear-gradient(to bottom, transparent, #000 0.4em, #000 calc(100% - 0.4em), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 0.45em, #000 calc(100% - 0.45em), transparent),
+              linear-gradient(to bottom, transparent, #000 0.28em, #000 calc(100% - 0.28em), transparent);
   mask-composite: intersect;
 }
 .header-hidden .site-header { transform: translateY(-100%); opacity: 0; }
@@ -240,25 +240,48 @@ body:not(.page-home) .site-contact::before {
 .st-big { font-size: calc(124 * var(--u)); line-height: 1.02; font-weight: 500; letter-spacing: -0.03em; padding-bottom: 0.06em; }
 .st-sub { margin-top: calc(10 * var(--u)) !important; font-size: calc(31 * var(--u)); line-height: 1.2; letter-spacing: -0.017em; opacity: 0.85; }
 
-.browse-list {
+/* Navigation de l'accueil : « all projects », compteur, et la liste de tous les écrans */
+.home-nav {
   position: fixed;
   left: calc(82 * var(--u));
   top: 50%;
   z-index: 30;
   transform: translateY(-50%);
-  font-size: calc(25 * var(--u));
-  line-height: calc(31 * var(--u));
-  letter-spacing: -0.025em;
+}
+.home-all {
+  display: inline-block;
+  font-size: calc(31 * var(--u));
+  line-height: calc(37 * var(--u));
+  font-weight: 700;
+  letter-spacing: -0.017em;
 }
 .slider-count {
-  position: fixed;
-  left: calc(82 * var(--u));
-  top: calc(50% + calc(30 * var(--u)));
-  z-index: 30;
-  margin: 0;
-  font-size: max(12px, calc(21 * var(--u)));
+  margin: calc(8 * var(--u)) 0 0;
+  font-size: calc(19 * var(--u));
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
+  opacity: 0.8;
+}
+.home-list { list-style: none; margin: calc(26 * var(--u)) 0 0; padding: 0; }
+.home-list button {
+  display: block;
+  padding: calc(3 * var(--u)) 0;
+  font-size: calc(20 * var(--u));
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-align: left;
+  opacity: 0.55;
+  transition: opacity 0.25s ease, transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.home-list button:hover { opacity: 0.95; }
+.home-list button[aria-current="true"] { opacity: 1; transform: translateX(calc(14 * var(--u))); }
+.home-list button[aria-current="true"]::before {
+  content: "";
+  position: absolute;
+  margin: 0.6em 0 0 calc(-14 * var(--u));
+  width: calc(8 * var(--u));
+  height: 1px;
+  background: currentColor;
 }
 .slider-arrow {
   position: fixed;
@@ -628,8 +651,10 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .slide-title { right: 16px; bottom: 64px; max-width: calc(100vw - 32px); }
   .st-big { font-size: 40px; }
   .st-sub { margin-top: 4px !important; font-size: 14px; }
-  .browse-list { left: auto; right: 16px; top: 74px; transform: none; font-size: 15px; line-height: 20px; }
-  .slider-count { left: auto; right: 16px; top: 96px; font-size: 12px; }
+  .home-nav { left: auto; right: 16px; top: 74px; transform: none; text-align: right; }
+  .home-all { font-size: 16px; line-height: 20px; }
+  .slider-count { margin-top: 4px; font-size: 12px; }
+  .home-list { display: none; }
   .slider-arrow { display: none; }
   .lb-stage { padding: 0 0 64px; }
   .lb-head { padding: 0 64px 0 16px; flex-direction: column; gap: 2px; margin-bottom: 10px; }

@@ -267,19 +267,38 @@
       var v = loadSlide(sl);
       v.muted = true;
       play(v);
+      // Relance si la lecture n'a pas pu démarrer tout de suite (vidéo pas encore prête)
+      v.addEventListener("canplay", function () {
+        if (sl.classList.contains("is-active") && v.paused && !(lb && lb.open)) play(v);
+      }, { once: true });
       hearIn(v);
       // Le suivant et le précédent se préparent, pour qu'aucun écran n'arrive vide
       var i = slides.indexOf(sl);
       loadSlide(slides[(i + 1) % slides.length]);
       loadSlide(slides[(i - 1 + slides.length) % slides.length]);
     };
-    var go = function (dir) {
+    // Liste de tous les écrans : un clic y mène directement
+    var listEl = slider.querySelector(".home-list");
+    var listBtns = slides.map(function (sl, i) {
+      var li = document.createElement("li"), b = document.createElement("button");
+      b.type = "button";
+      b.textContent = sl.getAttribute("aria-label");
+      b.addEventListener("click", function () { goTo(i); });
+      li.appendChild(b);
+      if (listEl) listEl.appendChild(li);
+      return b;
+    });
+    var markCurrent = function () {
+      listBtns.forEach(function (b, i) { b.setAttribute("aria-current", i === curSlide ? "true" : "false"); });
+    };
+    var go = function (dir, target) {
       if (busy || (lb && lb.open)) return;
       busy = true;
       var from = slides[curSlide];
-      curSlide = (curSlide + dir + slides.length) % slides.length;
+      curSlide = target !== undefined ? target : (curSlide + dir + slides.length) % slides.length;
       var to = slides[curSlide];
       nowEl.textContent = pad2(curSlide + 1);
+      markCurrent();
       activate(to);
       var vFrom = vidOf(from);
       if (!vFrom.muted) fadeTo(vFrom, 0, 700);
@@ -325,6 +344,8 @@
       });
     };
 
+    var goTo = function (i) { if (i !== curSlide) go(i > curSlide ? 1 : -1, i); };
+
     // Molette ou pavé tactile : un projet par geste (l'inertie ne fait pas sauter d'écrans)
     var lastWheel = 0;
     window.addEventListener("wheel", function (e) {
@@ -350,12 +371,18 @@
     slider.querySelector(".slider-prev").addEventListener("click", function () { go(-1); });
     slider.querySelector(".slider-next").addEventListener("click", function () { go(1); });
 
+    document.addEventListener("visibilitychange", function () {
+      var v = vidOf(slides[curSlide]);
+      if (!document.hidden && v.paused && !(lb && lb.open)) play(v);
+    });
+
     sliderApi = {
       sound: function (on) { var v = vidOf(slides[curSlide]); if (on) hearIn(v); else hearOut(v); },
       resume: function () { var v = vidOf(slides[curSlide]); v.muted = true; play(v); hearIn(v); }
     };
     titleIn(slides[0], 250);
     activate(slides[0]);
+    markCurrent();
   }
 
   /* ---------- Vue « index » : la liste des projets, le film flotte près du curseur ---------- */

@@ -160,8 +160,12 @@
         </div>
       </section>
     </div>
-    <a class="browse-list ul" href="projects/">all projects</a>
-    <p class="slider-count" aria-live="polite"><span class="sc-now">01</span> / <span class="sc-total">18</span></p>
+    <!-- Accès direct : la grille de tous les projets, et la liste des écrans (remplie par le script) -->
+    <nav class="home-nav" aria-label="Projects">
+      <a class="home-all ul" href="projects/">all projects →</a>
+      <p class="slider-count" aria-live="polite"><span class="sc-now">01</span> / <span class="sc-total">18</span></p>
+      <ol class="home-list"></ol>
+    </nav>
     <button class="slider-arrow slider-prev" type="button" aria-label="Previous project"><svg viewBox="0 0 40 22" aria-hidden="true"><path d="M2 20 20 3l18 17"/></svg></button>
     <button class="slider-arrow slider-next" type="button" aria-label="Next project"><svg viewBox="0 0 40 22" aria-hidden="true"><path d="M2 2l18 17L38 2"/></svg></button>
   </main>
