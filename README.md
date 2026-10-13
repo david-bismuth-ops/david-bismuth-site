@@ -86,7 +86,7 @@ Remplacer `cv/David-Bismuth_CV_EN.pdf` (et `_FR`) par le nouveau PDF en gardant 
 
 ## Showreel
 
-`media/showreel-full.mp4` est un premier jet d'1 min 19, monté automatiquement : 13 extraits de 6,5 s (dont Myrrhe pour Kalaïd et ZLAN pour ZQSD Production), choisis sur les passages les plus intenses de chaque film, avec des fondus de 0,5 s et un niveau aligné (−16 LUFS). Les noms qui s'affichent pendant la lecture viennent de l'attribut `data-chapters` de la tuile `tile-reel`, au format `[début en secondes, nom]`. Pour le remplacer par ton propre montage, exporte-le en 1280×720 H.264 + AAC sous le même nom et mets à jour `data-chapters`, ainsi que la durée (`data-duration`).
+`media/showreel-full.mp4` est un premier jet d'1 min 19, monté automatiquement : 13 extraits de 6,5 s (ZLAN pour ZQSD Production en 2e, Myrrhe pour Kalaïd en 3e), choisis sur les passages les plus intenses de chaque film, avec des fondus de 0,5 s et un niveau aligné (−16 LUFS). Les noms qui s'affichent pendant la lecture viennent de l'attribut `data-chapters` de la tuile `tile-reel`, au format `[début en secondes, nom]`. Pour le remplacer par ton propre montage, exporte-le en 1280×720 H.264 + AAC sous le même nom et mets à jour `data-chapters`, ainsi que la durée (`data-duration`).
 
 ## Son au survol
 
