@@ -163,6 +163,13 @@
       var poster = tile.querySelector("video");
       if (poster && poster.poster) media.poster = poster.poster;
       media.title = tile.getAttribute("aria-label") || "Film";
+      // Le cadre prend la forme exacte du film (pas de bandes noires, ex. Uniqlo en 1,9:1)
+      frame.style.aspectRatio = "";
+      media.addEventListener("loadedmetadata", function () {
+        if (media.videoWidth && media.videoHeight > 0 && media.videoWidth >= media.videoHeight) {
+          frame.style.aspectRatio = media.videoWidth + " / " + media.videoHeight;
+        }
+      });
       frame.appendChild(media);
       titleBox.textContent = tile.getAttribute("aria-label") || "";
       roleBox.textContent = tile.dataset.role || "";
@@ -488,6 +495,18 @@
     });
     if (store.get("db-view") === "index") setView("index");
   }
+
+  /* ---------- Page d'un projet : le lecteur prend la forme exacte du film ---------- */
+
+  document.querySelectorAll(".project-player:not(.is-portrait) video").forEach(function (v) {
+    var fit = function () {
+      if (v.videoWidth && v.videoHeight) {
+        v.parentNode.style.height = "auto";
+        v.parentNode.style.aspectRatio = v.videoWidth + " / " + v.videoHeight;
+      }
+    };
+    if (v.readyState >= 1) fit(); else v.addEventListener("loadedmetadata", fit);
+  });
 
   /* ---------- Curseur « play » sur les tuiles (souris uniquement) ---------- */
 

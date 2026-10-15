@@ -429,7 +429,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 .project { padding: calc(130 * var(--u)) calc(56 * var(--u)) calc(170 * var(--u)) calc(64 * var(--u)); }
 .project-back { margin: 0 0 calc(24 * var(--u)); font-size: calc(28 * var(--u)); letter-spacing: -0.025em; }
 /* Toute la largeur ; hauteur plafonnée à 80 % de l'écran (le film reste entier, bandes noires si besoin) */
-.project-player { position: relative; height: min(calc((100vw - 120 * var(--u)) * 9 / 16), 80vh); background: #000; }
+.project-player { position: relative; height: min(calc((100vw - 120 * var(--u)) * 9 / 16), 80vh); max-height: 80vh; background: #000; }
 .project-player video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
 .project-player.is-portrait { height: 80vh; width: calc(80vh * 9 / 16); margin: 0 auto; }
 .project-info {
