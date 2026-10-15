@@ -301,7 +301,9 @@
     var markCurrent = function () {
       listBtns.forEach(function (b, i) { b.setAttribute("aria-current", i === curSlide ? "true" : "false"); });
     };
-    var go = function (dir, target) {
+    // axis « x » : glissement latéral (balayage gauche / droite) ; sinon rideau vertical
+    var go = function (dir, target, axis) {
+      var T = axis === "x" ? "translateX" : "translateY";
       if (busy || (lb && lb.open)) return;
       busy = true;
       var from = slides[curSlide];
@@ -325,14 +327,14 @@
       if (dir > 0) {
         // L'écran actuel monte et découvre le suivant, qui se pose en douceur
         from.classList.add("is-moving");
-        lead = anim(from, [{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], { duration: DUR, easing: EASE });
-        anim(mFrom, [{ transform: "translateY(0)" }, { transform: "translateY(45%)" }], { duration: DUR, easing: EASE });
+        lead = anim(from, [{ transform: T + "(0)" }, { transform: T + "(-100%)" }], { duration: DUR, easing: EASE });
+        anim(mFrom, [{ transform: T + "(0)" }, { transform: T + "(45%)" }], { duration: DUR, easing: EASE });
         anim(mTo, [{ transform: "scale(1.12)" }, { transform: "scale(1)" }], { duration: DUR + 300, easing: OUT });
       } else {
         // En remontant, l'écran précédent redescend par-dessus
         to.classList.add("is-moving");
-        lead = anim(to, [{ transform: "translateY(-100%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
-        anim(mTo, [{ transform: "translateY(45%)" }, { transform: "translateY(0)" }], { duration: DUR, easing: EASE });
+        lead = anim(to, [{ transform: T + "(-100%)" }, { transform: T + "(0)" }], { duration: DUR, easing: EASE });
+        anim(mTo, [{ transform: T + "(45%)" }, { transform: T + "(0)" }], { duration: DUR, easing: EASE });
         anim(mFrom, [{ transform: "scale(1)" }, { transform: "scale(1.08)" }], { duration: DUR, easing: EASE });
       }
       from.querySelectorAll(".slide-title span").forEach(function (sp) {
@@ -369,14 +371,18 @@
       if (lb && lb.open) return;
       if (["ArrowDown", "PageDown", " "].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
       if (["ArrowUp", "PageUp"].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); go(1, undefined, "x"); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(-1, undefined, "x"); }
     });
-    var y0 = null;
-    slider.addEventListener("touchstart", function (e) { y0 = e.touches[0].clientY; }, { passive: true });
+    // Au doigt : glisser vers le haut / la gauche = projet suivant, vers le bas / la droite = précédent
+    var x0 = null, y0 = null;
+    slider.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
     slider.addEventListener("touchend", function (e) {
       if (y0 === null) return;
-      var dy = y0 - e.changedTouches[0].clientY;
-      y0 = null;
-      if (Math.abs(dy) > 40) go(dy > 0 ? 1 : -1);
+      var dx = x0 - e.changedTouches[0].clientX, dy = y0 - e.changedTouches[0].clientY;
+      x0 = y0 = null;
+      if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 40) go(dx > 0 ? 1 : -1, undefined, "x"); }
+      else if (Math.abs(dy) > 40) go(dy > 0 ? 1 : -1);
     }, { passive: true });
     slider.querySelector(".slider-prev").addEventListener("click", function () { go(-1); });
     slider.querySelector(".slider-next").addEventListener("click", function () { go(1); });

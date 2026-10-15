@@ -144,8 +144,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* ---------- Transitions entre les pages et apparition des tuiles ---------- */
 
+/* Changement de page façon AOC : la nouvelle page monte comme un panneau par-dessus
+   l'ancienne, qui recule légèrement ; l'en-tête et les contacts restent en place.
+   (Chrome, Edge, Safari 18.2+ ; ailleurs, la page change normalement.) */
 @view-transition { navigation: auto; }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.35s; }
+.site-header { view-transition-name: site-header; }
+.site-contact { view-transition-name: site-contact; }
+::view-transition-group(site-header), ::view-transition-group(site-contact) { animation-duration: 0s; }
+::view-transition-old(root) { animation: vt-out 0.9s cubic-bezier(0.76, 0, 0.24, 1) both; }
+::view-transition-new(root) { animation: vt-in 0.9s cubic-bezier(0.76, 0, 0.24, 1) both; }
+@keyframes vt-out { to { transform: translateY(-14%); filter: brightness(0.55); } }
+@keyframes vt-in { from { clip-path: inset(100% 0 0 0); transform: translateY(8%); } to { clip-path: inset(0 0 0 0); transform: translateY(0); } }
 
 .js-reveal .tile, .js-reveal .game, .js-reveal .player {
   transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -692,6 +701,9 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .slider-count { margin-top: 4px; font-size: 13px; }
   .home-list { display: none; }
   .slider-arrow { display: none; }
+  /* Téléphone tenu droit : les films verticaux remplissent tout l'écran */
+  .slide[data-portrait] .slide-media video { object-fit: cover; }
+  .slide[data-portrait] .slide-media::before { display: none; }
   .lb-stage { padding: 0 0 64px; }
   .lb-head { padding: 0 64px 0 16px; flex-direction: column; gap: 2px; margin-bottom: 10px; }
   .lb-frame.is-portrait { width: min(100vw, calc((100dvh - 240px) * 9 / 16)); height: auto; }
