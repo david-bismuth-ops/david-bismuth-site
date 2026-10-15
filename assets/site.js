@@ -11,8 +11,10 @@
 
   /* ---------- Échelle 1920 calculée sans la barre de défilement (comme Readymag) ---------- */
 
+  // Échelle calculée sur la largeur totale de la fenêtre : la barre de défilement (présente sur
+  // certaines pages, absente sur l'accueil) ne change ni la taille ni la place du texte de l'en-tête
   var setScale = function () {
-    if (root.clientWidth >= 768) root.style.setProperty("--u", root.clientWidth / 1920 + "px");
+    if (window.innerWidth >= 768) root.style.setProperty("--u", window.innerWidth / 1920 + "px");
     else root.style.removeProperty("--u");
   };
   setScale();
@@ -313,6 +315,7 @@
       var T = axis === "x" ? "translateX" : "translateY";
       if (busy || (lb && lb.open)) return;
       busy = true;
+      elapsed = 0; // la barre de progression repart de zéro
       var from = slides[curSlide];
       curSlide = target !== undefined ? target : (curSlide + dir + slides.length) % slides.length;
       var to = slides[curSlide];
@@ -365,6 +368,21 @@
 
     var goTo = function (i) { if (i !== curSlide) go(i > curSlide ? 1 : -1, i); };
 
+    // Barre de progression : 9 s par projet, puis le suivant ; en pause si un film est ouvert,
+    // si l'onglet est caché, pendant une transition ou pendant l'intro
+    var SLIDE_MS = 9000, elapsed = 0, lastT = performance.now(), introUntil = 0;
+    var bar = slider.querySelector(".slider-progress i");
+    var tick = function (t) {
+      var dt = Math.min(100, t - lastT);
+      lastT = t;
+      var paused = (lb && lb.open) || document.hidden || busy || t < introUntil;
+      if (!paused) elapsed += dt;
+      if (bar) bar.style.transform = "scaleX(" + Math.min(1, elapsed / SLIDE_MS) + ")";
+      if (elapsed >= SLIDE_MS && !paused) go(1);
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
     // Molette ou pavé tactile : un projet par geste (l'inertie ne fait pas sauter d'écrans)
     var lastWheel = 0;
     window.addEventListener("wheel", function (e) {
@@ -403,7 +421,21 @@
       sound: function (on) { var v = vidOf(slides[curSlide]); if (on) hearIn(v); else hearOut(v); },
       resume: function () { var v = vidOf(slides[curSlide]); v.muted = true; play(v); hearIn(v); }
     };
-    titleIn(slides[0], 250);
+    // Intro (première visite de la session) : le nom, puis le rideau monte sur le premier projet
+    var intro = document.querySelector(".intro");
+    var introDelay = 0;
+    if (intro && !root.classList.contains("intro-seen")) {
+      introDelay = 1500;
+      introUntil = performance.now() + introDelay + 1000;
+      try { sessionStorage.setItem("db-intro", "1"); } catch (e) {}
+      setTimeout(function () {
+        intro.animate([{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }],
+          { duration: 1000, easing: EASE, fill: "forwards" }).finished.then(function () { intro.remove(); });
+      }, introDelay);
+    } else if (intro) {
+      intro.remove();
+    }
+    titleIn(slides[0], introDelay + 450);
     activate(slides[0]);
     markCurrent();
   }
