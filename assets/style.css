@@ -451,16 +451,6 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 .index-float.is-on { opacity: 1; scale: 1; }
 .index-float video { width: 100%; height: 100%; object-fit: cover; }
 
-/* ---------- Page projets en mode sombre (à la Division) : les films ressortent ---------- */
-
-html:has(body.page-projects) { --bg: #141414; --ink: #8c8c88; --rail: #4a4a48; }
-.page-projects .tile-media, .page-projects .index-float { background: #222; }
-.page-projects .player-btns .pp svg { fill: #141414; }
-.page-projects .player-btns button:hover { background: rgba(255, 255, 255, 0.12); }
-.page-projects .work-index, .page-projects .work-index li, .page-projects .tracks, .page-projects .tracks li { border-color: rgba(255, 255, 255, 0.22); }
-.page-projects .rule { background: rgba(255, 255, 255, 0.4); }
-.page-projects .lightbox::backdrop { background: rgba(14, 14, 14, 0.96); }
-
 /* ---------- Page d'un projet : le film, puis titre, crédits et texte ---------- */
 
 .project { padding: calc(130 * var(--u)) calc(56 * var(--u)) calc(170 * var(--u)) calc(64 * var(--u)); }
