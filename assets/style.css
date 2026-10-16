@@ -728,6 +728,10 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .slider-count { margin-top: 4px; font-size: 13px; }
   .home-list { display: none; }
   .slider-arrow { display: none; }
+  /* Intro : tailles du téléphone (sinon le nom fait 150 px et déborde de l'écran) */
+  .intro { padding: 0 16px; }
+  .intro-name { font-size: 44px; }
+  .intro-role { margin-top: 8px !important; font-size: 17px; }
   /* Téléphone tenu droit : les films verticaux remplissent tout l'écran */
   .slide[data-portrait] .slide-media video { object-fit: cover; }
   .slide[data-portrait] .slide-media::before { display: none; }
