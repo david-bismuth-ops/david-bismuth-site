@@ -93,7 +93,8 @@ def page_html(p, prev, nxt):
       </dl>
     </div>
     <div class="project-text">
-      <p>{e(p['description_en'])}</p>{extra}
+      <p>{e(p['description_en'])}</p>
+      <p lang="fr">{e(p.get('description_fr', ''))}</p>{extra}
     </div>
     <nav class="project-pager" aria-label="Other projects">
       <a class="ul" href="../{e(prev['page'])}/">← {e(prev['title'])}</a>
