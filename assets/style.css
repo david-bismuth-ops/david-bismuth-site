@@ -563,11 +563,26 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 
 /* ---------- Lecteur audio ---------- */
 
+/* Cadre aligné sur la grille des films : à gauche le titre et le lecteur, à droite les morceaux */
 .player {
-  width: min(640px, 92vw);
-  margin: calc(90 * var(--u)) auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  column-gap: calc(80 * var(--u));
+  align-items: start;
+  margin: calc(110 * var(--u)) calc(56 * var(--u)) 0 calc(64 * var(--u));
+  padding: calc(48 * var(--u)) calc(52 * var(--u));
+  border: 1px solid rgba(255, 255, 255, 0.55);
   color: var(--ink);
 }
+.player-title {
+  margin: 0;
+  color: var(--paper);
+  font-size: calc(56 * var(--u));
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.player-intro { margin: calc(8 * var(--u)) 0 calc(40 * var(--u)); font-size: 14px; font-weight: 400; }
 .player-head { display: flex; align-items: center; gap: 14px; }
 .player-now { flex: 1; min-width: 0; }
 .now-title { display: block; color: var(--paper); font-size: 15px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -812,7 +827,10 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .tile-label { opacity: 1; place-items: end start; padding: 10px 12px; font-size: 15px !important; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
 
 
-  .player { margin-top: 40px; }
+  .player { grid-template-columns: 1fr; margin: 40px 16px 0; padding: 20px 16px; }
+  .player-title { font-size: 28px; }
+  .player-intro { margin: 4px 0 20px; }
+  .tracks { margin-top: 10px; }
 
   .game { grid-template-columns: 1fr; row-gap: 16px; margin: 0 16px 56px; }
 
