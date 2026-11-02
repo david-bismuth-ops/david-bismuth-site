@@ -710,10 +710,13 @@
   document.querySelectorAll(".project-player:not(.is-portrait) video").forEach(function (v) {
     var fit = function () {
       if (v.videoWidth && v.videoHeight) {
-        // Toute la largeur, sans plafond de hauteur : sinon le film rétrécit et laisse un vide à droite
-        v.parentNode.style.height = "auto";
-        v.parentNode.style.maxHeight = "none";
-        v.parentNode.style.aspectRatio = v.videoWidth + " / " + v.videoHeight;
+        var box = v.parentNode, wide = v.videoWidth / v.videoHeight >= 1.3;
+        box.style.height = "auto";
+        box.style.aspectRatio = v.videoWidth + " / " + v.videoHeight;
+        // Film large : toute la largeur, sans plafond de hauteur (sinon il rétrécit et laisse un vide à droite).
+        // Film carré (Sandro lookbook) : 80 % de la hauteur d'écran, centré, sinon il déborde de l'écran.
+        box.style.maxHeight = wide ? "none" : "80vh";
+        box.style.margin = wide ? "" : "0 auto";
       }
     };
     if (v.readyState >= 1) fit(); else v.addEventListener("loadedmetadata", fit);
