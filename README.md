@@ -94,7 +94,7 @@ Les aperçus (`media/<projet>.mp4`, 12 s) ont maintenant une piste son, alignée
 
 ## Accueil : un projet par écran
 
-Chaque `<section class="slide">` de `index.html` est un écran, dans l'ordre du défilement. Le grand titre se trouve dans `.st-big`, la ligne en dessous dans `.st-sub`. Le film lu (en muet, avec le son si « sound on ») est donné par `data-src`. Pour un film vertical ou carré, ajouter la classe `is-fit` et `style="--poster: url('/media/<projet>.jpg')"` (fond flou). Un clic ouvre le film en plein écran avec le son.
+Chaque `<section class="slide">` de `index.html` est un écran, dans l'ordre du défilement. Le grand titre se trouve dans `.st-big`, la ligne en dessous dans `.st-sub`. Le film lu (en muet, avec le son si « sound on ») est donné par `data-src` : c'est une boucle légère `media/<projet>-home.mp4` (20 s, 1280 px, son à −18 LUFS, 1,5 à 4,5 Mo ; 36 s pour le showreel), et non le film complet, réservé au plein écran (`data-film`). Sur téléphone, c'est l'aperçu `media/<projet>.mp4` qui est lu. Pour un nouveau projet, fabrique aussi sa boucle `-home`. Pour un film vertical ou carré, ajouter la classe `is-fit` et `style="--poster: url('/media/<projet>.jpg')"` (fond flou). Un clic ouvre le film en plein écran avec le son.
 
 ## Pages projet
 

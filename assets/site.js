@@ -28,6 +28,7 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         var v = e.target;
+        v._seen = e.isIntersecting;
         if (e.isIntersecting) {
           if (v.preload !== "auto") v.preload = "auto";
           play(v);
@@ -38,8 +39,17 @@
     }, { rootMargin: "200px 0px" });
     previews.forEach(function (v) {
       v.muted = true; // requis pour l'autoplay
+      // Relance dès que les images arrivent, si le premier play() est parti trop tôt
+      v.addEventListener("canplay", function () { if (v._seen && v.paused) play(v); });
       io.observe(v);
     });
+    // Garde-fou : un aperçu visible resté à l'arrêt (réseau lent, décodeur occupé) est relancé
+    setInterval(function () {
+      if (document.hidden) return;
+      previews.forEach(function (v) {
+        if (v._seen && v.paused && !(v.closest("dialog") || {}).open) play(v);
+      });
+    }, 2000);
   }
 
   /* ---------- Premier geste : relance les vidéos que le navigateur a refusé de lancer seul
@@ -282,18 +292,34 @@
     var nowEl = slider.querySelector(".sc-now");
     slider.querySelector(".sc-total").textContent = pad2(slides.length);
     var vidOf = function (sl) { return sl.querySelector("video"); };
-    // Sur téléphone, l'accueil lit les aperçus légers (moins de 1,3 Mo) au lieu des films complets :
-    // démarrage bien plus rapide en 4G. Margiela garde son film (aperçu au cadrage différent).
+    // L'accueil lit des boucles dédiées (media/<projet>-home.mp4 : 20 s, 1280 px, 1,5 à 4,5 Mo) :
+    // le film complet est réservé au plein écran. Sur téléphone, les aperçus encore plus légers
+    // (moins de 1,3 Mo) ; Margiela garde sa boucle (aperçu au cadrage différent).
     var isPhone = window.matchMedia("(max-width: 767px)").matches;
     var loadSlide = function (sl) {
       var v = vidOf(sl);
       if (!v.getAttribute("src")) {
         var src = v.dataset.src;
-        if (isPhone && src.indexOf("margiela") === -1) src = src.replace(/-full\.mp4(#.*)?$/, ".mp4");
+        if (isPhone && src.indexOf("margiela") === -1) src = src.replace(/-home\.mp4$/, ".mp4");
         v.src = src;
         v.preload = "auto";
       }
       return v;
+    };
+    // Les écrans éloignés rendent leur lecteur : le navigateur limite le nombre de vidéos
+    // ouvertes en même temps, et au-delà certaines ne démarrent plus
+    var unloadFar = function (i) {
+      var n = slides.length;
+      slides.forEach(function (sl, j) {
+        var d = Math.min((j - i + n) % n, (i - j + n) % n);
+        var v = vidOf(sl);
+        // (l'écran qui sort pendant le rideau est encore « is-active » : il garde son film)
+        if (d > 1 && v.getAttribute("src") && !sl.classList.contains("is-active")) {
+          v.pause();
+          v.removeAttribute("src");
+          v.load();
+        }
+      });
     };
     var EASE = "cubic-bezier(0.76, 0, 0.24, 1)", OUT = "cubic-bezier(0.22, 1, 0.36, 1)", DUR = 1100;
     var titleIn = function (sl, delay) {
@@ -314,6 +340,7 @@
       hearIn(v);
       // Le suivant et le précédent se préparent, pour qu'aucun écran n'arrive vide
       var i = slides.indexOf(sl);
+      unloadFar(i);
       loadSlide(slides[(i + 1) % slides.length]);
       loadSlide(slides[(i - 1 + slides.length) % slides.length]);
     };
