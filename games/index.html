@@ -11,6 +11,7 @@
   <meta property="og:title" content="Games — David Bismuth">
   <meta property="og:url" content="https://david-bismuth.com/games/">
   <meta property="og:image" content="https://david-bismuth.com/media/grab-grab.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#b5b5ae">
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="apple-touch-icon" href="../favicon.png">
@@ -59,7 +60,12 @@
 
     <article class="game">
       <div class="game-embed">
-        <iframe title="Ravenswatch (Original Game Soundtrack) on Bandcamp" src="https://bandcamp.com/EmbeddedPlayer/album=2151848930/size=large/bgcol=b5b5ae/linkcol=ffffff/tracklist=true/artwork=small/transparent=true/" loading="lazy" seamless></iframe>
+        <!-- Le lecteur Bandcamp n'est chargé qu'au clic : aucun cookie tiers sans action du visiteur -->
+        <button class="bc-facade" type="button" data-embed="https://bandcamp.com/EmbeddedPlayer/album=2151848930/size=large/bgcol=b5b5ae/linkcol=ffffff/tracklist=true/artwork=small/transparent=true/" data-title="Ravenswatch (Original Game Soundtrack) on Bandcamp">
+          <span class="bc-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+          <span class="bc-title">Ravenswatch — Original Game Soundtrack</span>
+          <span class="bc-note">Plays here with the Bandcamp player</span>
+        </button>
       </div>
       <div class="game-text">
         <h2>RAVENSWATCH</h2>
@@ -78,10 +84,11 @@
   </main>
 
   <nav class="site-contact" aria-label="Contact">
-    <a class="ul" href="mailto:david-bismuth@outlook.fr">mail</a>
+    <a class="ul cta" href="/about/" data-mail="david-bismuth|outlook.fr">get in touch</a>
     <a class="ul" href="https://www.linkedin.com/in/david-bismuth-2349931a8" target="_blank" rel="noopener">linkedin</a>
     <a class="ul" href="https://www.instagram.com/david__bismuth/" target="_blank" rel="noopener">instagram</a>
     <a class="ul" href="../cv/David-Bismuth_CV_EN.pdf" target="_blank" rel="noopener">cv</a>
+    <a class="ul legal" href="/mentions-legales/">legal</a>
   </nav>
 
   <dialog class="lightbox" aria-label="Film">

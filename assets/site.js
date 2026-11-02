@@ -52,6 +52,26 @@
     }, 2000);
   }
 
+  /* ---------- Adresse mail assemblée ici, absente du code HTML : les robots collecteurs de spam
+     ne la trouvent pas. Sans JavaScript, le lien mène à la page About. ---------- */
+
+  document.querySelectorAll("[data-mail]").forEach(function (a) {
+    a.href = "mailto:" + a.dataset.mail.split("|").join("@");
+  });
+
+  /* ---------- Lecteur Bandcamp : l'iframe (et ses cookies) n'arrive qu'au clic ---------- */
+
+  document.querySelectorAll(".bc-facade").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var f = document.createElement("iframe");
+      f.src = b.dataset.embed;
+      f.title = b.dataset.title;
+      f.setAttribute("seamless", "");
+      f.allow = "autoplay";
+      b.replaceWith(f);
+    });
+  });
+
   /* ---------- Premier geste : relance les vidéos que le navigateur a refusé de lancer seul
      (ex. mode économie d'énergie de l'iPhone, qui bloque la lecture automatique) ---------- */
 
@@ -836,6 +856,8 @@
       var d = audio.duration;
       fill.style.width = d ? (audio.currentTime / d) * 100 + "%" : "0";
       timeEl.textContent = fmt(audio.currentTime) + " / " + fmt(d);
+      rail.setAttribute("aria-valuenow", d ? Math.round((audio.currentTime / d) * 100) : 0);
+      rail.setAttribute("aria-valuetext", fmt(audio.currentTime));
     });
 
     var seek = function (e) {

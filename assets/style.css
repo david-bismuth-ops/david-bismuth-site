@@ -164,6 +164,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   text-transform: lowercase;
 }
 
+/* Un seul appel à l'action : « get in touch », en gras ; les mentions légales en retrait */
+.site-contact .cta, .about-links .cta { font-weight: 700; }
+.site-contact .legal { opacity: 0.6; }
+.project-cta { margin-top: calc(40 * var(--u)) !important; font-weight: 700; }
+.project-cta a { color: var(--paper); }
+
 /* Filet blanc sous l'en-tête (pages projets) */
 .rule {
   height: 1px;
@@ -691,6 +697,49 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   letter-spacing: -0.025em;
 }
 
+/* ---------- Mentions légales ---------- */
+
+.legal-page {
+  max-width: calc(1150 * var(--u));
+  padding: calc(170 * var(--u)) 0 calc(170 * var(--u)) calc(112 * var(--u));
+  color: var(--ink);
+  font-size: calc(24 * var(--u));
+  line-height: 1.45;
+  font-weight: 400;
+}
+.legal-page h1 { margin: 0 0 calc(50 * var(--u)); color: var(--paper); font-size: calc(56 * var(--u)); line-height: 1.05; font-weight: 500; letter-spacing: -0.03em; }
+.legal-page h2 { margin: calc(40 * var(--u)) 0 calc(8 * var(--u)); color: var(--paper); font-size: calc(28 * var(--u)); font-weight: 500; letter-spacing: -0.02em; }
+.legal-page p { margin: 0 0 calc(12 * var(--u)); }
+.legal-page a { color: var(--paper); }
+
+/* ---------- Page 404 ---------- */
+
+.nf { min-height: 100vh; display: grid; align-content: center; padding: 0 calc(112 * var(--u)); }
+.nf h1 { margin: 0; font-size: calc(260 * var(--u)); line-height: 0.9; font-weight: 500; letter-spacing: -0.05em; }
+.nf p { margin: calc(20 * var(--u)) 0 0; color: var(--ink); font-size: calc(31 * var(--u)); line-height: 1.3; }
+.nf .nf-links { display: flex; gap: calc(36 * var(--u)); color: var(--paper); font-weight: 700; }
+
+/* ---------- Lecteur Bandcamp chargé au clic (pas de cookies tiers avant) ---------- */
+
+.bc-facade {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 700px;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: var(--paper);
+  text-align: center;
+  transition: background 0.25s;
+}
+.bc-facade:hover { background: rgba(255, 255, 255, 0.1); }
+.bc-facade .bc-play { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; background: var(--paper); }
+.bc-facade .bc-play svg { width: 22px; height: 22px; fill: var(--ink); margin-left: 3px; }
+.bc-facade .bc-title { font-size: 17px; font-weight: 700; }
+.bc-facade .bc-note { font-size: 12px; font-weight: 400; color: var(--ink); }
+
 /* ---------- Lecture plein écran ---------- */
 
 .lightbox {
@@ -859,6 +908,13 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .about-links { gap: 14px; margin-top: 28px; font-size: 16px; line-height: 21px; }
   .about-phone, .about-lang { margin-top: 8px; font-size: 16px; line-height: 21px; }
   .about-services { margin-top: 18px; font-size: 16px; line-height: 21px; }
+  .legal-page { padding: 100px 16px 90px; font-size: 15px; }
+  .legal-page h1 { font-size: 30px; margin-bottom: 24px; }
+  .legal-page h2 { font-size: 18px; margin-top: 26px; }
+  .nf { padding: 0 16px; }
+  .nf h1 { font-size: 110px; }
+  .nf p { font-size: 17px; margin-top: 12px; }
+  .nf .nf-links { gap: 20px; }
 
   .lb-stage { width: 100vw; }
   .lb-close { top: 10px; right: 10px; }

@@ -3,12 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Not found — David Bismuth</title>
+  <title>Page not found — David Bismuth</title>
   <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#b5b5ae">
   <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preload" href="/assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/style.css">
 </head>
-<body>
+<body class="page-404">
+  <!-- Servie par GitHub Pages pour toute adresse inexistante : liens absolus obligatoires -->
   <header class="site-header">
     <a class="h-role ul" href="/projects/">Composer &amp; Sound Designer</a>
     <a class="h-name ul" href="/">David Bismuth</a>
@@ -17,8 +20,24 @@
       <a class="ul" href="/about/">about</a>
     </nav>
   </header>
-  <main class="about">
-    <div class="about-text"><p>This page doesn’t exist. <a class="ul" href="/projects/" style="color:#fff">See projects</a></p></div>
+
+  <main class="nf">
+    <h1>404</h1>
+    <p>This page doesn’t exist, or it has moved.<br><span lang="fr">Cette page n’existe pas, ou elle a changé d’adresse.</span></p>
+    <p class="nf-links">
+      <a class="ul" href="/projects/">see all projects →</a>
+      <a class="ul" href="/">home →</a>
+    </p>
   </main>
+
+  <nav class="site-contact" aria-label="Contact">
+    <a class="ul cta" href="/about/" data-mail="david-bismuth|outlook.fr">get in touch</a>
+    <a class="ul" href="https://www.linkedin.com/in/david-bismuth-2349931a8" target="_blank" rel="noopener">linkedin</a>
+    <a class="ul" href="https://www.instagram.com/david__bismuth/" target="_blank" rel="noopener">instagram</a>
+    <a class="ul" href="/cv/David-Bismuth_CV_EN.pdf" target="_blank" rel="noopener">cv</a>
+    <a class="ul legal" href="/mentions-legales/">legal</a>
+  </nav>
+
+  <script src="/assets/site.js" defer></script>
 </body>
 </html>

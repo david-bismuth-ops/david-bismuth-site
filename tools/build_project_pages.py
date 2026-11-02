@@ -58,6 +58,7 @@ def page_html(p, prev, nxt):
   <meta property="og:description" content="{e(p['description_en'])}">
   <meta property="og:url" content="{url}">
   <meta property="og:image" content="{poster}">
+  <meta name="twitter:card" content="summary_large_image">
   <meta property="og:video" content="{film}">
   <meta name="theme-color" content="#b5b5ae">
   <link rel="icon" type="image/png" href="../../favicon.png">
@@ -95,6 +96,7 @@ def page_html(p, prev, nxt):
     <div class="project-text">
       <p>{e(p['description_en'])}</p>
       <p lang="fr">{e(p.get('description_fr', ''))}</p>{extra}
+      <p class="project-cta"><a class="ul" href="/about/" data-mail="david-bismuth|outlook.fr">Have a project in mind? Get in touch →</a></p>
     </div>
     <nav class="project-pager" aria-label="Other projects">
       <a class="ul" href="../{e(prev['page'])}/">← {e(prev['title'])}</a>
@@ -103,10 +105,11 @@ def page_html(p, prev, nxt):
   </main>
 
   <nav class="site-contact" aria-label="Contact">
-    <a class="ul" href="mailto:david-bismuth@outlook.fr">mail</a>
+    <a class="ul cta" href="/about/" data-mail="david-bismuth|outlook.fr">get in touch</a>
     <a class="ul" href="https://www.linkedin.com/in/david-bismuth-2349931a8" target="_blank" rel="noopener">linkedin</a>
     <a class="ul" href="https://www.instagram.com/david__bismuth/" target="_blank" rel="noopener">instagram</a>
     <a class="ul" href="../../cv/David-Bismuth_CV_EN.pdf" target="_blank" rel="noopener">cv</a>
+    <a class="ul legal" href="/mentions-legales/">legal</a>
   </nav>
 
   <script src="../../assets/site.js" defer></script>

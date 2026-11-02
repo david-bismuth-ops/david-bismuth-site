@@ -106,3 +106,11 @@ Pour ajouter les crédits (année, agence, réalisateur) ou corriger un texte :
 3. Faire `git add . && git commit -m "Crédits" && git push`.
 
 Pour un nouveau projet, ajouter une entrée dans le JSON, puis sa tuile dans `projects/index.html` (avec `data-page`) et son écran dans `index.html`.
+
+## Vérifications avant mise en ligne (novembre 2026)
+
+- **Mentions légales et confidentialité** : `mentions-legales/`, lien « legal » dans la barre de contact. Le site ne dépose aucun cookie : pas de bannière nécessaire. Le lecteur Bandcamp (page games) n'est chargé qu'au clic (`.bc-facade`), pour ne pas déposer de cookies tiers sans action du visiteur.
+- **Un seul appel à l'action** : « get in touch » (« me contacter » en français), en gras, et « Have a project in mind? » en bas de chaque page projet.
+- **Anti-spam** : l'adresse mail n'est jamais écrite dans le HTML. Les liens portent `data-mail="david-bismuth|outlook.fr"` et `site.js` assemble le `mailto:`. Sans JavaScript, le lien mène à la page About.
+- **Partage** : `og:image` + `twitter:card` sur toutes les pages ; `favicon.ico` à la racine.
+- **Page 404** : `404.html`, servie par GitHub Pages pour toute adresse inexistante (liens absolus obligatoires).
