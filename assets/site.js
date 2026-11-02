@@ -42,6 +42,19 @@
     });
   }
 
+  /* ---------- Premier geste : relance les vidéos que le navigateur a refusé de lancer seul
+     (ex. mode économie d'énergie de l'iPhone, qui bloque la lecture automatique) ---------- */
+
+  var unlock = function () {
+    document.querySelectorAll(".slide.is-active video, video[data-preview]").forEach(function (v) {
+      var r = v.getBoundingClientRect();
+      if (v.paused && r.bottom > 0 && r.top < innerHeight) play(v);
+    });
+  };
+  ["touchstart", "pointerdown", "keydown"].forEach(function (ev) {
+    document.addEventListener(ev, unlock, { passive: true, once: true });
+  });
+
   /* ---------- Son au survol : « sound on » fait entendre la musique du film survolé ---------- */
 
   var soundBtn = document.querySelector(".sound-toggle");
@@ -269,9 +282,17 @@
     var nowEl = slider.querySelector(".sc-now");
     slider.querySelector(".sc-total").textContent = pad2(slides.length);
     var vidOf = function (sl) { return sl.querySelector("video"); };
+    // Sur téléphone, l'accueil lit les aperçus légers (moins de 1,3 Mo) au lieu des films complets :
+    // démarrage bien plus rapide en 4G. Margiela garde son film (aperçu au cadrage différent).
+    var isPhone = window.matchMedia("(max-width: 767px)").matches;
     var loadSlide = function (sl) {
       var v = vidOf(sl);
-      if (!v.getAttribute("src")) { v.src = v.dataset.src; v.preload = "auto"; }
+      if (!v.getAttribute("src")) {
+        var src = v.dataset.src;
+        if (isPhone && src.indexOf("margiela") === -1) src = src.replace(/-full\.mp4(#.*)?$/, ".mp4");
+        v.src = src;
+        v.preload = "auto";
+      }
       return v;
     };
     var EASE = "cubic-bezier(0.76, 0, 0.24, 1)", OUT = "cubic-bezier(0.22, 1, 0.36, 1)", DUR = 1100;
@@ -411,6 +432,13 @@
     }, { passive: true });
     slider.querySelector(".slider-prev").addEventListener("click", function () { go(-1); });
     slider.querySelector(".slider-next").addEventListener("click", function () { go(1); });
+
+    // Garde-fou : si la vidéo du projet affiché s'est arrêtée (réseau, onglet repassé au
+    // premier plan…), on la relance
+    setInterval(function () {
+      var v = vidOf(slides[curSlide]);
+      if (v.paused && !busy && !document.hidden && !(lb && lb.open)) play(v);
+    }, 1500);
 
     document.addEventListener("visibilitychange", function () {
       var v = vidOf(slides[curSlide]);
