@@ -67,7 +67,7 @@ body:not(.page-home) { background: transparent; }
   z-index: 39;
   pointer-events: none;
   right: calc(137 * var(--u));
-  bottom: calc(30 * var(--u));
+  bottom: calc(16 * var(--u));
   width: calc(520 * var(--u));
   height: calc(52 * var(--u));
 }
@@ -154,7 +154,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .site-contact {
   position: fixed;
   left: calc(82 * var(--u));
-  bottom: calc(38 * var(--u));
+  bottom: calc(24 * var(--u));
   z-index: 40;
   display: flex;
   gap: calc(21 * var(--u));
@@ -166,7 +166,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* Un seul appel à l'action : « get in touch », en gras ; les mentions légales en retrait */
 .site-contact .cta, .about-links .cta { font-weight: 700; }
-.site-contact .legal { opacity: 0.6; }
 .project-cta { margin-top: calc(40 * var(--u)) !important; font-weight: 700; }
 .project-cta a { color: var(--paper); }
 

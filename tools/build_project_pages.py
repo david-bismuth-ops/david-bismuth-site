@@ -109,7 +109,6 @@ def page_html(p, prev, nxt):
     <a class="ul" href="https://www.linkedin.com/in/david-bismuth-2349931a8" target="_blank" rel="noopener">linkedin</a>
     <a class="ul" href="https://www.instagram.com/david__bismuth/" target="_blank" rel="noopener">instagram</a>
     <a class="ul" href="../../cv/David-Bismuth_CV_EN.pdf" target="_blank" rel="noopener">cv</a>
-    <a class="ul legal" href="/mentions-legales/">legal</a>
   </nav>
 
   <script src="../../assets/site.js" defer></script>
