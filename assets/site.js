@@ -710,7 +710,9 @@
   document.querySelectorAll(".project-player:not(.is-portrait) video").forEach(function (v) {
     var fit = function () {
       if (v.videoWidth && v.videoHeight) {
+        // Toute la largeur, sans plafond de hauteur : sinon le film rétrécit et laisse un vide à droite
         v.parentNode.style.height = "auto";
+        v.parentNode.style.maxHeight = "none";
         v.parentNode.style.aspectRatio = v.videoWidth + " / " + v.videoHeight;
       }
     };

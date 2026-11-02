@@ -293,21 +293,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   z-index: 30;
   transform: translateY(-50%);
 }
-.home-pitch {
-  margin: 0;
-  max-width: calc(470 * var(--u));
-  font-size: calc(26 * var(--u));
-  line-height: 1.25;
-  letter-spacing: -0.015em;
-}
-.home-services {
-  margin: calc(10 * var(--u)) 0 calc(34 * var(--u));
-  max-width: calc(470 * var(--u));
-  font-size: calc(20 * var(--u));
-  line-height: 1.35;
-  letter-spacing: 0.005em;
-  opacity: 0.75;
-}
 .home-all {
   display: inline-block;
   font-size: calc(31 * var(--u));
@@ -671,6 +656,13 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   letter-spacing: -0.025em;
   text-transform: lowercase;
 }
+.about-services {
+  margin: calc(30 * var(--u)) 0 0;
+  font-size: calc(28 * var(--u));
+  line-height: calc(35 * var(--u));
+  letter-spacing: -0.025em;
+}
+.about-services + .about-links { margin-top: calc(36 * var(--u)); }
 .about-lang {
   margin: calc(17 * var(--u)) 0 0;
   font-size: calc(28 * var(--u));
@@ -776,9 +768,6 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .home-all { font-size: 16px; line-height: 20px; }
   .slider-count { margin-top: 4px; font-size: 13px; }
   .home-list { display: none; }
-  .home-pitch { max-width: 210px; margin-left: auto; font-size: 13px; line-height: 17px; }
-  .home-services { display: none; }
-  .home-nav .home-all { margin-top: 10px; }
   .slider-arrow { display: none; }
   /* Intro : tailles du téléphone (sinon le nom fait 150 px et déborde de l'écran) */
   .intro { padding: 0 16px; }
@@ -851,6 +840,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .about-text p { margin-bottom: 18px; }
   .about-links { gap: 14px; margin-top: 28px; font-size: 16px; line-height: 21px; }
   .about-phone, .about-lang { margin-top: 8px; font-size: 16px; line-height: 21px; }
+  .about-services { margin-top: 18px; font-size: 16px; line-height: 21px; }
 
   .lb-stage { width: 100vw; }
   .lb-close { top: 10px; right: 10px; }
