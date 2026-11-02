@@ -83,6 +83,16 @@
   ["pointerdown", "keydown"].forEach(function (ev) {
     document.addEventListener(ev, function () { if (audioCtxNode && audioCtxNode.state === "suspended") audioCtxNode.resume(); }, { passive: true });
   });
+  // Tous les films passent par un même analyseur avant les enceintes : le fond « écoute » la musique
+  var analyser = null;
+  var busOf = function () {
+    if (!analyser) {
+      analyser = audioCtxNode.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.connect(audioCtxNode.destination);
+    }
+    return analyser;
+  };
   var gainOf = function (v) {
     var g = gains.get(v);
     if (!g && audioCtx()) {
@@ -90,7 +100,7 @@
         g = audioCtxNode.createGain();
         g.gain.value = 0;
         audioCtxNode.createMediaElementSource(v).connect(g);
-        g.connect(audioCtxNode.destination);
+        g.connect(busOf());
         gains.set(v, g);
       } catch (e) { g = null; }
     }
@@ -131,6 +141,22 @@
     }, 120);
   };
   var hearOut = function (v) { if (v && !v.muted) fadeTo(v, 0, 300); };
+  // Les autres lecteurs (plein écran, pages projet, musiques) passent aussi par l'analyseur,
+  // pour que la ligne sonore bouge avec eux. Seulement si le moteur audio tourne déjà :
+  // sinon le lecteur deviendrait muet.
+  var routed = new WeakSet();
+  document.addEventListener("playing", function (e) {
+    var el = e.target;
+    if (!(el instanceof HTMLMediaElement) || el.muted || gains.has(el) || routed.has(el)) return;
+    if (el.hasAttribute("data-preview") || el.closest(".slide")) return;
+    var ctx = audioCtx();
+    if (!ctx) return;
+    var route = function () {
+      if (routed.has(el) || ctx.state !== "running") return;
+      try { ctx.createMediaElementSource(el).connect(busOf()); routed.add(el); } catch (err) {}
+    };
+    if (ctx.state === "running") route(); else ctx.resume().then(route, function () {});
+  }, true);
   if (soundBtn) {
     soundBtn.addEventListener("click", function () {
       audioCtx();
@@ -139,6 +165,102 @@
     });
     if (store.get("db-sound") === "1") setSound(true);
   }
+
+  /* ---------- Fond vivant : un grain de pellicule très léger, et une ligne qui vibre avec la musique ----------
+     Le grain est dans le fond gris (pas sur l'accueil, où les films couvrent tout l'écran).
+     La ligne est en bas à droite, sur la ligne des contacts : presque immobile en silence,
+     elle vibre avec la musique entendue (survol en « sound on », plein écran, lecteur audio)
+     et quand on fait défiler la page, comme une corde qu'on pince. */
+
+  (function () {
+    if (!document.body.classList.contains("page-home")) {
+      // Grain : une tuile de bruit fabriquée une fois, déplacée par à-coups (comme une pellicule)
+      var tile = document.createElement("canvas");
+      tile.width = tile.height = 180;
+      var tc = tile.getContext("2d"), img = tc.createImageData(180, 180);
+      for (var i = 0; i < img.data.length; i += 4) {
+        var g = Math.random() * 255;
+        img.data[i] = img.data[i + 1] = img.data[i + 2] = g;
+        img.data[i + 3] = 255;
+      }
+      tc.putImageData(img, 0, 0);
+      var grain = document.createElement("div");
+      grain.className = "bg-grain";
+      grain.setAttribute("aria-hidden", "true");
+      grain.style.backgroundImage = "url(" + tile.toDataURL("image/png") + ")";
+      document.body.prepend(grain);
+    }
+
+    // Ligne sonore : sur ordinateur seulement (sur téléphone, la place manque en bas de l'écran)
+    if (!window.matchMedia("(hover: hover)").matches) return;
+    var wave = document.createElement("canvas");
+    wave.className = "sound-wave";
+    wave.setAttribute("aria-hidden", "true");
+    document.body.appendChild(wave);
+    var wc = wave.getContext("2d"), W = 0, H = 0, dpr = 1;
+    var sizeWave = function () {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      var r = wave.getBoundingClientRect();
+      W = r.width; H = r.height;
+      wave.width = W * dpr; wave.height = H * dpr;
+    };
+    sizeWave();
+    window.addEventListener("resize", sizeWave);
+    // Une corde qui vibre : chaque bande de fréquences (des graves aux aigus) fait vibrer
+    // un mode de la corde (1 ventre pour les graves, jusqu'à 7 pour les aigus)
+    var BANDS = [[30, 120], [120, 300], [300, 700], [700, 1500], [1500, 3500], [3500, 8000], [8000, 14000]];
+    var amps = new Float32Array(BANDS.length), freq = null;
+    // Défilement : chaque coup de molette pince la corde, qui retombe d'elle-même
+    var pluck = 0;
+    window.addEventListener("wheel", function (e) {
+      pluck = Math.min(1, pluck + Math.min(0.35, Math.abs(e.deltaY) / 400));
+    }, { passive: true });
+    var t0 = performance.now();
+    var drawWave = function (now) {
+      requestAnimationFrame(drawWave);
+      if (document.hidden) return;
+      if (analyser) {
+        if (!freq) freq = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(freq);
+        var hz = audioCtxNode.sampleRate / analyser.fftSize;
+        BANDS.forEach(function (bd, n) {
+          var lo = Math.floor(bd[0] / hz), hi = Math.ceil(bd[1] / hz), sum = 0;
+          for (var f = lo; f < hi; f++) sum += freq[f];
+          var target = Math.pow(sum / (hi - lo) / 255, 1.6);
+          // attaque rapide, relâchement plus lent, comme un VU-mètre
+          amps[n] += (target - amps[n]) * (target > amps[n] ? 0.35 : 0.08);
+        });
+      } else {
+        for (var j = 0; j < amps.length; j++) amps[j] *= 0.92; // retour au calme
+      }
+      var t = (now - t0) / 1000, mid = H / 2, steps = 120;
+      wc.setTransform(dpr, 0, 0, dpr, 0, 0);
+      wc.clearRect(0, 0, W, H);
+      wc.beginPath();
+      var energy = 0;
+      for (var n = 0; n < amps.length; n++) energy = Math.max(energy, amps[n]);
+      pluck *= 0.955;
+      energy = Math.max(energy, pluck * 0.6);
+      for (var i = 0; i <= steps; i++) {
+        var u = i / steps, y = 0;
+        // légère ondulation permanente, même en silence : deux vagues lentes qui se croisent
+        y += Math.sin(Math.PI * u) * (Math.sin(3 * Math.PI * u - t * 1.1) * 0.1 + Math.sin(1.4 * Math.PI * u + t * 0.6) * 0.07);
+        // corde pincée par le défilement : les deux premiers modes, qui s'amortissent
+        y += pluck * (Math.sin(Math.PI * u) * Math.sin(t * 9) * 0.8 + Math.sin(2 * Math.PI * u) * Math.sin(t * 14 + 1) * 0.35);
+        for (var m = 0; m < amps.length; m++) {
+          // mode m+1 de la corde, qui oscille sur place à sa propre vitesse
+          y += amps[m] * Math.sin((m + 1) * Math.PI * u) * Math.sin(t * (5 + m * 3.1) + m) * (m ? 0.55 : 0.9);
+        }
+        var py = mid + Math.max(-1, Math.min(1, y)) * H * 0.46;
+        if (i) wc.lineTo(u * W, py); else wc.moveTo(u * W, py);
+      }
+      wc.strokeStyle = "rgba(255, 255, 255, " + (0.6 + Math.min(0.4, energy)) + ")";
+      wc.lineWidth = 1.5;
+      wc.lineJoin = "round";
+      wc.stroke();
+    };
+    requestAnimationFrame(drawWave);
+  })();
 
   /* ---------- Lecture plein écran des films (media/*-full.mp4) ---------- */
 
@@ -729,5 +851,38 @@
     });
 
     load(0, false);
+  }
+
+  /* ---------- Page projets : les vignettes suivent le défilement avec un léger retard ----------
+     Chaque colonne a son propre retard (plus marqué à droite) : la grille s'étire un peu
+     pendant le défilement, puis se resserre. */
+
+  var driftTiles = Array.prototype.slice.call(document.querySelectorAll(".grid .tile, .strip .tile, .grid-wide .tile"));
+  if (driftTiles.length && window.matchMedia("(min-width: 768px)").matches) {
+    var factors = [];
+    var measure = function () {
+      factors = driftTiles.map(function (t) {
+        var pr = t.parentElement.getBoundingClientRect(), tr = t.getBoundingClientRect();
+        var x = (tr.left + tr.width / 2 - pr.left) / Math.max(1, pr.width);
+        return 0.35 + x * 0.9;
+      });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    var lastY = window.scrollY, vel = 0, still = true;
+    var drift = function () {
+      requestAnimationFrame(drift);
+      var dy = window.scrollY - lastY;
+      lastY = window.scrollY;
+      vel += (dy - vel) * 0.12; // le retard : la vitesse est suivie avec inertie
+      var off = Math.max(-26, Math.min(26, vel * 1.4));
+      if (Math.abs(off) < 0.05) {
+        if (!still) { driftTiles.forEach(function (t) { t.style.translate = ""; }); still = true; }
+        return;
+      }
+      still = false;
+      driftTiles.forEach(function (t, i) { t.style.translate = "0 " + (off * factors[i]).toFixed(2) + "px"; });
+    };
+    requestAnimationFrame(drift);
   }
 })();

@@ -48,6 +48,39 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
+
+/* ---------- Fond vivant (créé par site.js) ---------- */
+/* Le fond gris est porté par <html> : le grain passe derrière tout le contenu */
+body:not(.page-home) { background: transparent; }
+.bg-grain {
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  animation: grain 0.8s steps(1) infinite;
+}
+/* La ligne sonore, en bas à droite, sur la ligne des contacts */
+.sound-wave {
+  position: fixed;
+  z-index: 39;
+  pointer-events: none;
+  right: calc(137 * var(--u));
+  bottom: calc(30 * var(--u));
+  width: calc(520 * var(--u));
+  height: calc(52 * var(--u));
+}
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  12%  { transform: translate(-7%, 4%); }
+  25%  { transform: translate(5%, -9%); }
+  37%  { transform: translate(-11%, -3%); }
+  50%  { transform: translate(8%, 10%); }
+  62%  { transform: translate(-4%, 7%); }
+  75%  { transform: translate(11%, -6%); }
+  87%  { transform: translate(-9%, -10%); }
+}
 img, video { display: block; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 
