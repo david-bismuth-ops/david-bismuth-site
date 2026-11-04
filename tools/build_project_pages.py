@@ -72,9 +72,10 @@ def page_html(p, prev, nxt):
 <body class="page-project">
   <!-- Page générée par tools/build_project_pages.py depuis data/projects.json : modifier le JSON, pas ce fichier -->
   <header class="site-header">
-    <a class="h-role ul" href="../">Composer &amp; Sound Designer</a>
+    <a class="h-role ul" href="../">Composer, Sound Designer &amp; Mixer</a>
     <a class="h-name ul" href="../../">David Bismuth</a>
     <nav class="h-nav" aria-label="Sections">
+      <a class="ul" href="/projects/">work</a>
       <a class="ul" href="../../games/">games</a>
       <a class="ul" href="../../about/">about</a>
     </nav>

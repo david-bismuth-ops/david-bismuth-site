@@ -55,8 +55,22 @@
   /* ---------- Adresse mail assemblée ici, absente du code HTML : les robots collecteurs de spam
      ne la trouvent pas. Sans JavaScript, le lien mène à la page About. ---------- */
 
-  document.querySelectorAll("[data-mail]").forEach(function (a) {
-    a.href = "mailto:" + a.dataset.mail.split("|").join("@");
+  var mailAddr = "";
+  document.querySelectorAll("[data-mail]").forEach(function (el) {
+    mailAddr = el.dataset.mail.split("|").join("@");
+    if (el.tagName === "A") el.href = "mailto:" + mailAddr;
+    else el.textContent = mailAddr; // adresse affichée en clair (page About)
+  });
+  // Bouton « copy » : pour ceux qui n'ont pas de logiciel de mail (Gmail dans le navigateur…)
+  document.querySelectorAll(".mail-copy").forEach(function (b) {
+    var label = b.textContent;
+    b.addEventListener("click", function () {
+      var done = function () {
+        b.textContent = b.dataset.done;
+        setTimeout(function () { b.textContent = label; }, 1600);
+      };
+      if (navigator.clipboard) navigator.clipboard.writeText(mailAddr).then(done, function () {});
+    });
   });
 
   /* ---------- Lecteur Bandcamp : l'iframe (et ses cookies) n'arrive qu'au clic ---------- */
@@ -384,7 +398,9 @@
       ambient.classList.remove("is-on");
       frame.textContent = ""; // coupe le son immédiatement
       root.style.overflow = "";
-      if (lastTile && lastTile.offsetParent) lastTile.focus({ preventScroll: true });
+      // Le focus revient là où l'on était (sur l'accueil : le bouton « watch with sound »)
+      var back = lastTile && (lastTile.querySelector(".st-watch button") || lastTile);
+      if (back && back.offsetParent) back.focus({ preventScroll: true });
       previews.forEach(function (v) {
         var r = v.getBoundingClientRect();
         if (r.bottom > 0 && r.top < innerHeight) play(v);
@@ -430,6 +446,8 @@
   if (slider) {
     var slides = Array.prototype.slice.call(slider.querySelectorAll(".slide"));
     var curSlide = 0, busy = false;
+    // Lecteurs d'écran : chaque écran est une diapositive nommée (aria-label = le projet)
+    slides.forEach(function (sl) { sl.setAttribute("role", "group"); sl.setAttribute("aria-roledescription", "slide"); });
     var pad2 = function (n) { return String(n).padStart(2, "0"); };
     var nowEl = slider.querySelector(".sc-now");
     slider.querySelector(".sc-total").textContent = pad2(slides.length);
@@ -561,11 +579,25 @@
     // Barre de progression : 9 s par projet, puis le suivant ; en pause si un film est ouvert,
     // si l'onglet est caché, pendant une transition ou pendant l'intro
     var SLIDE_MS = 9000, elapsed = 0, lastT = performance.now(), introUntil = 0;
+    // Pas d'avance automatique quand on est en train de lire ou de viser : souris sur la liste,
+    // le titre ou les flèches, souris qui vient de bouger, ou navigation au clavier.
+    // Avec « Réduire les animations », pas d'avance automatique du tout.
+    var noAuto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var hovering = false, focusIn = false, lastMove = -1e9;
+    slider.querySelectorAll(".home-nav, .slide-title, .slider-arrow").forEach(function (el) {
+      el.addEventListener("pointerenter", function () { hovering = true; });
+      el.addEventListener("pointerleave", function () { hovering = false; });
+    });
+    slider.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") lastMove = performance.now(); });
+    slider.addEventListener("focusin", function () { focusIn = true; });
+    slider.addEventListener("focusout", function () { focusIn = false; });
+    if (noAuto) { var pb = slider.querySelector(".slider-progress"); if (pb) pb.hidden = true; }
     var bar = slider.querySelector(".slider-progress i");
     var tick = function (t) {
       var dt = Math.min(100, t - lastT);
       lastT = t;
-      var paused = (lb && lb.open) || document.hidden || busy || t < introUntil;
+      var paused = (lb && lb.open) || document.hidden || busy || t < introUntil ||
+        noAuto || hovering || focusIn || t - lastMove < 2500;
       if (!paused) elapsed += dt;
       if (bar) bar.style.transform = "scaleX(" + Math.min(1, elapsed / SLIDE_MS) + ")";
       if (elapsed >= SLIDE_MS && !paused) go(1);
@@ -584,6 +616,8 @@
     }, { passive: true });
     document.addEventListener("keydown", function (e) {
       if (lb && lb.open) return;
+      // Espace et Entrée gardent leur rôle sur un bouton ou un lien (son, liste, « watch »…)
+      if (e.key === " " && e.target.closest && e.target.closest("button, a, input, [role=slider]")) return;
       if (["ArrowDown", "PageDown", " "].indexOf(e.key) > -1) { e.preventDefault(); go(1); }
       if (["ArrowUp", "PageUp"].indexOf(e.key) > -1) { e.preventDefault(); go(-1); }
       if (e.key === "ArrowRight") { e.preventDefault(); go(1, undefined, "x"); }
@@ -819,7 +853,7 @@
       return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
     };
     var setPlaying = function (on) {
-      pp.setAttribute("aria-label", on ? "Pause" : "Lecture");
+      pp.setAttribute("aria-label", on ? "Pause" : "Play");
       pp.querySelector(".i-play").style.display = on ? "none" : "";
       pp.querySelector(".i-pause").style.display = on ? "" : "none";
     };

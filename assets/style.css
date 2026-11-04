@@ -116,15 +116,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .h-role {
   left: calc(82 * var(--u));
   top: calc(24 * var(--u));
-  font-size: calc(31 * var(--u));
+  font-size: max(15px, calc(31 * var(--u)));
   line-height: calc(37 * var(--u));
   font-weight: 700;
   letter-spacing: -0.017em;
 }
 .h-name {
-  left: calc(545 * var(--u));
+  /* juste après « Composer, Sound Designer & Mixer » (environ 15,7 fois sa taille de police) */
+  left: calc(112 * var(--u) + max(15px, calc(31 * var(--u))) * 15.8);
   top: calc(25 * var(--u));
-  font-size: calc(29 * var(--u));
+  font-size: max(15px, calc(29 * var(--u)));
   line-height: calc(37 * var(--u));
   font-weight: 300;
   letter-spacing: 0.004em;
@@ -141,7 +142,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   display: flex;
   gap: calc(21 * var(--u));
   pointer-events: auto;
-  font-size: calc(28 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
   line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
@@ -158,8 +159,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   z-index: 40;
   display: flex;
   gap: calc(21 * var(--u));
-  font-size: calc(28 * var(--u));
-  line-height: calc(35 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
+  line-height: max(19px, calc(35 * var(--u)));
   letter-spacing: -0.025em;
   text-transform: lowercase;
 }
@@ -287,8 +288,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .slide-title h2, .slide-title p { margin: 0; overflow: hidden; }
 .slide-title span { display: inline-block; }
+.st-watch { margin-top: calc(14 * var(--u)) !important; pointer-events: auto; }
+.st-watch button { font-size: max(15px, calc(26 * var(--u))); font-weight: 700; letter-spacing: -0.015em; }
 .st-big { font-size: calc(124 * var(--u)); line-height: 1.02; font-weight: 500; letter-spacing: -0.03em; padding-bottom: 0.06em; }
-.st-sub { margin-top: calc(10 * var(--u)) !important; font-size: calc(31 * var(--u)); line-height: 1.2; letter-spacing: -0.017em; opacity: 0.85; }
+.st-sub { margin-top: calc(10 * var(--u)) !important; font-size: max(16px, calc(31 * var(--u))); line-height: 1.2; letter-spacing: -0.017em; opacity: 0.85; }
 
 /* Navigation de l'accueil : « all projects », compteur, et la liste de tous les écrans */
 .home-nav {
@@ -307,7 +310,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .slider-count {
   margin: calc(8 * var(--u)) 0 0;
-  font-size: calc(22 * var(--u));
+  font-size: max(14px, calc(22 * var(--u)));
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
   opacity: 0.8;
@@ -316,7 +319,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .home-list button {
   display: block;
   padding: calc(3 * var(--u)) 0;
-  font-size: calc(23 * var(--u));
+  font-size: max(15px, calc(23 * var(--u)));
   line-height: 1.25;
   letter-spacing: -0.01em;
   text-align: left;
@@ -440,6 +443,9 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   column-gap: calc(22 * var(--u));
 }
 .grid-wide .tile-media { aspect-ratio: 874 / 490; }
+/* GRAB GRAB : seul jeu interactif, en bandeau sur toute la largeur de la grille */
+.grid .tile-feature { grid-column: 1 / -1; }
+.grid .tile-feature .tile-media { aspect-ratio: 2.4 / 1; }
 
 /* Bascule grille / index */
 .view-switch {
@@ -689,6 +695,9 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
+.about-mail { margin: calc(17 * var(--u)) 0 0; font-size: max(15px, calc(28 * var(--u))); line-height: calc(35 * var(--u)); letter-spacing: -0.025em; }
+.about-mail .mail-text { user-select: all; }
+.mail-copy { margin-left: 0.5em; font-size: inherit; opacity: 0.8; }
 .about-phone {
   margin: calc(17 * var(--u)) 0 0;
   font-size: calc(28 * var(--u));
@@ -823,7 +832,8 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .site-header { height: 64px; }
   .h-role { left: 16px; top: 14px; font-size: 16px; line-height: 20px; }
   .h-name { left: 16px; top: 34px; font-size: 15px; line-height: 20px; }
-  .h-nav { left: auto; right: 16px; transform: none; top: 15px; gap: 14px; font-size: 16px; line-height: 20px; }
+  /* le titre de métier, plus long, prend la première ligne : le menu passe sur la ligne du nom */
+  .h-nav { left: auto; right: 16px; transform: none; top: 34px; gap: 14px; font-size: 15px; line-height: 20px; }
   .slide-title { right: 16px; bottom: 64px; max-width: calc(100vw - 32px); }
   .st-big { font-size: 40px; }
   .st-sub { margin-top: 4px !important; font-size: 14px; }
@@ -905,7 +915,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   .about-text { font-size: 18px; line-height: 23px; letter-spacing: -0.02em; }
   .about-text p { margin-bottom: 18px; }
   .about-links { gap: 14px; margin-top: 28px; font-size: 16px; line-height: 21px; }
-  .about-phone, .about-lang { margin-top: 8px; font-size: 16px; line-height: 21px; }
+  .about-mail, .about-phone, .about-lang { margin-top: 8px; font-size: 16px; line-height: 21px; }
   .about-services { margin-top: 18px; font-size: 16px; line-height: 21px; }
   .legal-page { padding: 100px 16px 90px; font-size: 15px; }
   .legal-page h1 { font-size: 30px; margin-bottom: 24px; }
@@ -925,4 +935,5 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .bg-grain { animation-duration: 0.8s !important; }
 }
