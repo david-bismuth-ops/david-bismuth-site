@@ -288,8 +288,43 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .slide-title h2, .slide-title p { margin: 0; overflow: hidden; }
 .slide-title span { display: inline-block; }
-.st-watch { margin-top: calc(14 * var(--u)) !important; pointer-events: auto; }
-.st-watch button { font-size: max(15px, calc(26 * var(--u))); font-weight: 700; letter-spacing: -0.015em; }
+/* Bouton lecture : un triangle dans un cercle, aligné à droite sous le titre */
+.st-watch { margin-top: calc(18 * var(--u)) !important; pointer-events: auto; overflow: visible !important; }
+.st-play {
+  display: grid;
+  place-items: center;
+  width: max(46px, calc(78 * var(--u)));
+  height: max(46px, calc(78 * var(--u)));
+  border: 1.5px solid var(--paper);
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.3s;
+}
+.st-play svg { width: 38%; height: 38%; margin-left: 8%; fill: var(--paper); }
+.st-play:hover { transform: scale(1.08); background: rgba(255, 255, 255, 0.14); }
+.st-play:focus-visible { outline-offset: 4px; }
+
+/* Panneau de contact (« get in touch ») : fond gris du site, filet blanc, comme le lecteur Music */
+.contact-panel {
+  position: fixed;
+  z-index: 60;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  padding: 18px 44px 16px 20px;
+  background: var(--bg);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: var(--paper);
+  font-size: 16px;
+  line-height: 1.35;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+}
+.contact-panel[hidden] { display: none; }
+.contact-panel p { margin: 0 0 8px; }
+.contact-panel p:last-of-type { margin-bottom: 0; }
+.cp-mail { font-weight: 700; }
+.cp-addr { user-select: all; }
+.cp-copy { margin-left: 0.4em; font-size: 14px; font-weight: 500; opacity: 0.85; }
+.cp-close { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; display: grid; place-items: center; }
+.cp-close svg { width: 14px; height: 14px; stroke: var(--paper); stroke-width: 1.6; fill: none; }
 .st-big { font-size: calc(124 * var(--u)); line-height: 1.02; font-weight: 500; letter-spacing: -0.03em; padding-bottom: 0.06em; }
 .st-sub { margin-top: calc(10 * var(--u)) !important; font-size: max(16px, calc(31 * var(--u))); line-height: 1.2; letter-spacing: -0.017em; opacity: 0.85; }
 

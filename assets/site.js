@@ -56,28 +56,85 @@
      ne la trouvent pas. Sans JavaScript, le lien mène à la page About. ---------- */
 
   var mailAddr = "";
+  // Objet du mail pré-rempli : le projet sur une page projet, sinon une demande générale
+  var head = document.querySelector(".project-head h1"), headSub = document.querySelector(".project-sub");
+  var subject = (head ? head.textContent + (headSub ? " · " + headSub.textContent : "") + " — " : "Project inquiry — ") + "via david-bismuth.com";
+  var mailto = function () { return "mailto:" + mailAddr + "?subject=" + encodeURIComponent(subject); };
   document.querySelectorAll("[data-mail]").forEach(function (el) {
     mailAddr = el.dataset.mail.split("|").join("@");
-    if (el.tagName === "A") el.href = "mailto:" + mailAddr;
+    if (el.tagName === "A") el.href = mailto();
     else el.textContent = mailAddr; // adresse affichée en clair (page About)
   });
-  // Bouton « copy » : pour ceux qui n'ont pas de logiciel de mail (Gmail dans le navigateur…)
-  document.querySelectorAll(".mail-copy").forEach(function (b) {
-    b.hidden = false;
+  // Copier l'adresse : pour ceux qui n'ont pas de logiciel de mail (Gmail dans le navigateur…)
+  var copyMail = function (b, textEl) {
     var label = b.textContent;
     b.addEventListener("click", function () {
       var done = function () {
         b.textContent = b.dataset.done;
         setTimeout(function () { b.textContent = label; }, 1600);
       };
-      var selectIt = function () {
-        var t = document.querySelector(".mail-text");
-        if (t) window.getSelection().selectAllChildren(t);
-      };
+      var selectIt = function () { if (textEl) window.getSelection().selectAllChildren(textEl); };
       if (navigator.clipboard) navigator.clipboard.writeText(mailAddr).then(done, selectIt);
       else selectIt();
     });
+  };
+  document.querySelectorAll(".mail-copy").forEach(function (b) {
+    b.hidden = false;
+    copyMail(b, document.querySelector(".mail-text"));
   });
+
+  /* ---------- « get in touch » ouvre un petit panneau, sur toutes les pages : adresse en clair,
+     copier, téléphone, écrire. Sans JavaScript, le lien mène à la page About. ---------- */
+
+  var ctas = Array.prototype.slice.call(document.querySelectorAll(".site-contact .cta, .project-cta a"));
+  if (ctas.length && mailAddr) {
+    var panel = document.createElement("div");
+    panel.className = "contact-panel";
+    panel.id = "contact-panel";
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-label", "Contact");
+    panel.hidden = true;
+    panel.innerHTML =
+      '<p class="cp-mail"><span class="cp-addr"></span> <button class="ul cp-copy" type="button" data-done="copied">copy</button></p>' +
+      '<p><a class="ul" href="tel:+33687504813">+33 6 87 50 48 13</a></p>' +
+      '<p><a class="ul cp-write" href="">write an email →</a></p>' +
+      '<button class="cp-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button>';
+    panel.querySelector(".cp-addr").textContent = mailAddr;
+    panel.querySelector(".cp-write").href = mailto();
+    copyMail(panel.querySelector(".cp-copy"), panel.querySelector(".cp-addr"));
+    document.body.appendChild(panel);
+    var opener = null;
+    var closePanel = function () {
+      if (panel.hidden) return;
+      panel.hidden = true;
+      ctas.forEach(function (c) { c.setAttribute("aria-expanded", "false"); });
+      if (opener) opener.focus({ preventScroll: true });
+    };
+    ctas.forEach(function (c) {
+      c.setAttribute("aria-controls", "contact-panel");
+      c.setAttribute("aria-expanded", "false");
+      c.addEventListener("click", function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault();
+        if (!panel.hidden) { closePanel(); return; }
+        opener = c;
+        // le panneau s'ouvre au-dessus du lien cliqué (barre du bas ou fin de page projet)
+        var r = c.getBoundingClientRect();
+        panel.classList.toggle("is-inline", !c.closest(".site-contact"));
+        panel.style.left = Math.max(16, Math.min(r.left, innerWidth - 16 - 320)) + "px";
+        panel.style.bottom = (innerHeight - r.top + 12) + "px";
+        panel.hidden = false;
+        c.setAttribute("aria-expanded", "true");
+        panel.querySelector(".cp-copy").focus({ preventScroll: true });
+      });
+    });
+    panel.querySelector(".cp-close").addEventListener("click", closePanel);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePanel(); });
+    document.addEventListener("pointerdown", function (e) {
+      if (!panel.hidden && !panel.contains(e.target) && ctas.indexOf(e.target.closest("a")) === -1) closePanel();
+    });
+    window.addEventListener("scroll", function () { if (panel.classList.contains("is-inline")) closePanel(); }, { passive: true });
+  }
 
   /* ---------- Lecteur Bandcamp : l'iframe (et ses cookies) n'arrive qu'au clic ---------- */
 
@@ -407,7 +464,7 @@
       frame.textContent = ""; // coupe le son immédiatement
       root.style.overflow = "";
       // Le focus revient là où l'on était (sur l'accueil : le bouton « watch with sound »)
-      var back = lastTile && (lastTile.querySelector(".st-watch button") || lastTile);
+      var back = lastTile && (lastTile.querySelector(".st-play") || lastTile);
       if (back && back.offsetParent) back.focus({ preventScroll: true });
       previews.forEach(function (v) {
         var r = v.getBoundingClientRect();
@@ -810,6 +867,7 @@
       });
       tile.addEventListener("pointermove", function (e) {
         tx = e.clientX; ty = e.clientY;
+        cursor.classList.toggle("is-on", !e.target.closest(".st-play"));
         if (!raf) raf = requestAnimationFrame(follow);
       });
       tile.addEventListener("pointerleave", function () { cursor.classList.remove("is-on"); });
