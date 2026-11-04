@@ -478,9 +478,6 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   column-gap: calc(22 * var(--u));
 }
 .grid-wide .tile-media { aspect-ratio: 874 / 490; }
-/* GRAB GRAB : seul jeu interactif, en bandeau sur toute la largeur de la grille */
-.grid .tile-feature { grid-column: 1 / -1; }
-.grid .tile-feature .tile-media { aspect-ratio: 2.4 / 1; }
 
 /* Bascule grille / index */
 .view-switch {
