@@ -63,13 +63,19 @@
   });
   // Bouton « copy » : pour ceux qui n'ont pas de logiciel de mail (Gmail dans le navigateur…)
   document.querySelectorAll(".mail-copy").forEach(function (b) {
+    b.hidden = false;
     var label = b.textContent;
     b.addEventListener("click", function () {
       var done = function () {
         b.textContent = b.dataset.done;
         setTimeout(function () { b.textContent = label; }, 1600);
       };
-      if (navigator.clipboard) navigator.clipboard.writeText(mailAddr).then(done, function () {});
+      var selectIt = function () {
+        var t = document.querySelector(".mail-text");
+        if (t) window.getSelection().selectAllChildren(t);
+      };
+      if (navigator.clipboard) navigator.clipboard.writeText(mailAddr).then(done, selectIt);
+      else selectIt();
     });
   });
 
@@ -178,11 +184,13 @@
   // Les autres lecteurs (plein écran, pages projet, musiques) passent aussi par l'analyseur,
   // pour que la ligne sonore bouge avec eux. Seulement si le moteur audio tourne déjà :
   // sinon le lecteur deviendrait muet.
+  var waveOn = window.matchMedia("(hover: hover) and (min-width: 768px)").matches;
   var routed = new WeakSet();
   document.addEventListener("playing", function (e) {
     var el = e.target;
-    if (!(el instanceof HTMLMediaElement) || el.muted || gains.has(el) || routed.has(el)) return;
-    if (el.hasAttribute("data-preview") || el.closest(".slide")) return;
+    if (!waveOn || !(el instanceof HTMLMediaElement) || el.muted || gains.has(el) || routed.has(el)) return;
+    // plein écran : la ligne est cachée sous le fond du lecteur, inutile de router
+    if (el.hasAttribute("data-preview") || el.closest(".slide") || el.closest("dialog")) return;
     var ctx = audioCtx();
     if (!ctx) return;
     var route = function () {
@@ -225,8 +233,8 @@
       document.body.prepend(grain);
     }
 
-    // Ligne sonore : sur ordinateur seulement (sur téléphone, la place manque en bas de l'écran)
-    if (!window.matchMedia("(hover: hover)").matches) return;
+    // Ligne sonore : sur ordinateur seulement (sur téléphone ou fenêtre étroite, elle recouvrirait les contacts)
+    if (!waveOn) return;
     var wave = document.createElement("canvas");
     wave.className = "sound-wave";
     wave.setAttribute("aria-hidden", "true");
@@ -456,14 +464,14 @@
     // le film complet est réservé au plein écran. Sur téléphone, les aperçus encore plus légers
     // (moins de 1,3 Mo) ; Margiela garde sa boucle (aperçu au cadrage différent).
     var isPhone = window.matchMedia("(max-width: 767px)").matches;
-    var loadSlide = function (sl) {
+    var loadSlide = function (sl, pre) {
       var v = vidOf(sl);
-      if (!v.getAttribute("src")) {
-        var src = v.dataset.src;
-        if (isPhone && src.indexOf("margiela") === -1) src = src.replace(/-home\.mp4$/, ".mp4");
-        v.src = src;
-        v.preload = "auto";
-      }
+      // déjà chargé : on passe juste au chargement complet quand l'écran devient proche
+      if (v.getAttribute("src")) { if (pre !== "metadata") v.preload = "auto"; return v; }
+      var src = v.dataset.src;
+      if (isPhone && src.indexOf("margiela") === -1) src = src.replace(/-home\.mp4$/, ".mp4");
+      v.preload = pre || "auto";
+      v.src = src;
       return v;
     };
     // Les écrans éloignés rendent leur lecteur : le navigateur limite le nombre de vidéos
@@ -502,7 +510,7 @@
       var i = slides.indexOf(sl);
       unloadFar(i);
       loadSlide(slides[(i + 1) % slides.length]);
-      loadSlide(slides[(i - 1 + slides.length) % slides.length]);
+      loadSlide(slides[(i - 1 + slides.length) % slides.length], "metadata");
     };
     // Liste de tous les écrans : un clic y mène directement
     var listEl = slider.querySelector(".home-list");
@@ -589,7 +597,9 @@
       el.addEventListener("pointerleave", function () { hovering = false; });
     });
     slider.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") lastMove = performance.now(); });
-    slider.addEventListener("focusin", function () { focusIn = true; });
+    slider.addEventListener("focusin", function (e) {
+      try { focusIn = e.target.matches(":focus-visible"); } catch (err) { focusIn = false; }
+    });
     slider.addEventListener("focusout", function () { focusIn = false; });
     if (noAuto) { var pb = slider.querySelector(".slider-progress"); if (pb) pb.hidden = true; }
     var bar = slider.querySelector(".slider-progress i");
@@ -603,7 +613,7 @@
       if (elapsed >= SLIDE_MS && !paused) go(1);
       requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    if (!noAuto) requestAnimationFrame(tick);
 
     // Molette ou pavé tactile : un projet par geste (l'inertie ne fait pas sauter d'écrans)
     var lastWheel = 0;
@@ -930,20 +940,24 @@
     };
     measure();
     window.addEventListener("resize", measure);
-    var lastY = window.scrollY, vel = 0, still = true;
+    // driftY, et non lastY : ce nom est déjà pris par l'en-tête dans la même fonction
+    var driftY = window.scrollY, vel = 0, running = false;
     var drift = function () {
-      requestAnimationFrame(drift);
-      var dy = window.scrollY - lastY;
-      lastY = window.scrollY;
+      var dy = window.scrollY - driftY;
+      driftY = window.scrollY;
       vel += (dy - vel) * 0.12; // le retard : la vitesse est suivie avec inertie
       var off = Math.max(-26, Math.min(26, vel * 1.4));
-      if (Math.abs(off) < 0.05) {
-        if (!still) { driftTiles.forEach(function (t) { t.style.translate = ""; }); still = true; }
+      if (Math.abs(off) < 0.05 && dy === 0) {
+        // la grille s'est resserrée : on arrête la boucle jusqu'au prochain défilement
+        driftTiles.forEach(function (t) { t.style.translate = ""; });
+        running = false;
         return;
       }
-      still = false;
       driftTiles.forEach(function (t, i) { t.style.translate = "0 " + (off * factors[i]).toFixed(2) + "px"; });
+      requestAnimationFrame(drift);
     };
-    requestAnimationFrame(drift);
+    window.addEventListener("scroll", function () {
+      if (!running) { running = true; requestAnimationFrame(drift); }
+    }, { passive: true });
   }
 })();

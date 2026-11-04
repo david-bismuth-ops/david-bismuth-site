@@ -303,7 +303,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .home-all {
   display: inline-block;
-  font-size: calc(31 * var(--u));
+  font-size: max(15px, calc(31 * var(--u)));
   line-height: calc(37 * var(--u));
   font-weight: 700;
   letter-spacing: -0.017em;
@@ -453,7 +453,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   justify-content: flex-end;
   gap: calc(28 * var(--u));
   margin: 0 calc(56 * var(--u)) calc(26 * var(--u)) 0;
-  font-size: calc(28 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
   letter-spacing: -0.025em;
 }
 .view-switch button { opacity: 0.55; transition: opacity 0.2s; }
@@ -511,14 +511,14 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   margin-top: calc(44 * var(--u));
 }
 .project-head h1 { margin: 0; font-size: calc(96 * var(--u)); line-height: 1.02; font-weight: 500; letter-spacing: -0.03em; }
-.project-sub { margin: calc(8 * var(--u)) 0 0; font-size: calc(36 * var(--u)); letter-spacing: -0.02em; }
-.project-credit { margin: calc(14 * var(--u)) 0 0; font-size: calc(26 * var(--u)); color: var(--ink); opacity: 0.65; }
+.project-sub { margin: calc(8 * var(--u)) 0 0; font-size: max(15px, calc(36 * var(--u))); letter-spacing: -0.02em; }
+.project-credit { margin: calc(14 * var(--u)) 0 0; font-size: max(15px, calc(26 * var(--u))); color: var(--ink); opacity: 0.65; }
 .project-credits {
   display: grid;
   grid-template-columns: auto auto;
   gap: calc(6 * var(--u)) calc(26 * var(--u));
   margin: calc(12 * var(--u)) 0 0;
-  font-size: calc(28 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
   letter-spacing: -0.02em;
 }
 .project-credits dt { color: var(--ink); opacity: 0.6; }
@@ -527,7 +527,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   max-width: calc(1150 * var(--u));
   margin-top: calc(40 * var(--u));
   color: var(--ink);
-  font-size: calc(30 * var(--u));
+  font-size: max(15px, calc(30 * var(--u)));
   line-height: 1.4;
   letter-spacing: -0.012em;
 }
@@ -557,7 +557,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 /* Lecteur Bandcamp aux couleurs du site (fond gris, liens blancs), sans cadre autour */
 .game-embed { aspect-ratio: 876 / 490; }
 .game-embed iframe { display: block; width: 100%; max-width: 700px; height: 100%; border: 0; }
-.game-text { color: var(--ink); font-size: calc(26 * var(--u)); line-height: 1.38; letter-spacing: -0.01em; }
+.game-text { color: var(--ink); font-size: max(15px, calc(26 * var(--u))); line-height: 1.38; letter-spacing: -0.01em; }
 .game-text h2 {
   margin: calc(-6 * var(--u)) 0 calc(10 * var(--u));
   color: var(--paper);
@@ -565,12 +565,12 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   line-height: 1;
   font-weight: 500;
 }
-.game-role { margin: 0; color: var(--paper); font-size: calc(28 * var(--u)); }
+.game-role { margin: 0; color: var(--paper); font-size: max(15px, calc(28 * var(--u))); }
 .game-meta { margin: calc(4 * var(--u)) 0 calc(22 * var(--u)); font-weight: 400; opacity: 0.6; }
 .game-text ul { margin: 0; padding-left: 1.1em; font-weight: 400; }
 .game-text li { margin-bottom: calc(8 * var(--u)); }
 .game-text strong { font-weight: 600; }
-.game-links { display: flex; flex-wrap: wrap; gap: calc(8 * var(--u)) calc(28 * var(--u)); margin: calc(24 * var(--u)) 0 0; color: var(--paper); font-size: calc(28 * var(--u)); }
+.game-links { display: flex; flex-wrap: wrap; gap: calc(8 * var(--u)) calc(28 * var(--u)); margin: calc(24 * var(--u)) 0 0; color: var(--paper); font-size: max(15px, calc(28 * var(--u))); }
 
 /* ---------- Lecteur audio ---------- */
 
@@ -667,7 +667,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   max-width: calc(1294 * var(--u));
   margin: 0;
   color: var(--ink);
-  font-size: calc(31 * var(--u));
+  font-size: max(15px, calc(31 * var(--u)));
   line-height: calc(37 * var(--u));
   font-weight: 500;
   letter-spacing: -0.017em;
@@ -677,21 +677,21 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   display: flex;
   gap: calc(21 * var(--u));
   margin-top: calc(66 * var(--u));
-  font-size: calc(28 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
   line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
   text-transform: lowercase;
 }
 .about-services {
   margin: calc(30 * var(--u)) 0 0;
-  font-size: calc(28 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
   line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
 .about-services + .about-links { margin-top: calc(36 * var(--u)); }
 .about-lang {
   margin: calc(17 * var(--u)) 0 0;
-  font-size: calc(28 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
   line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
@@ -700,7 +700,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
 .mail-copy { margin-left: 0.5em; font-size: inherit; opacity: 0.8; }
 .about-phone {
   margin: calc(17 * var(--u)) 0 0;
-  font-size: calc(28 * var(--u));
+  font-size: max(15px, calc(28 * var(--u)));
   line-height: calc(35 * var(--u));
   letter-spacing: -0.025em;
 }
@@ -711,7 +711,7 @@ main.work { position: relative; padding: calc(120 * var(--u)) 0 calc(150 * var(-
   max-width: calc(1150 * var(--u));
   padding: calc(170 * var(--u)) 0 calc(170 * var(--u)) calc(112 * var(--u));
   color: var(--ink);
-  font-size: calc(24 * var(--u));
+  font-size: max(15px, calc(24 * var(--u)));
   line-height: 1.45;
   font-weight: 400;
 }
