@@ -119,23 +119,23 @@
    "page": "grab-grab",
    "media": "grab-grab",
    "brand": "GRAB GRAB",
-   "title": "GRAB GRAB — gameplay and live Wwise session",
+   "title": "GRAB GRAB — gameplay demo",
    "subtitle": "Video game",
    "role": "Music, SFX, mix & Wwise",
-   "credit": "gameplay + live Wwise session",
+   "credit": "gameplay demo",
    "studio": "",
    "year": "",
    "director": "",
    "agency": "",
    "portrait": false,
    "fit": false,
-   "description_en": "Adaptive music, sound effects and mix for GRAB GRAB, a 3D multiplayer arena game in development (Godot), with the music and sound implemented in Wwise. The video shows gameplay alongside the live Wwise session.",
-   "upload_date": "2026-10-12",
+   "description_en": "Adaptive music, sound effects and mix for GRAB GRAB, a 3D multiplayer arena game in development (Godot), with the music and sound implemented in Wwise. The video is a gameplay demo with the current sound.",
+   "upload_date": "2026-11-04",
    "extra_link": [
     "../../games/",
     "more about the game audio →"
    ],
-   "description_fr": "Musique adaptative, effets sonores et mixage de GRAB GRAB, jeu d’arène multijoueur en 3D en développement (Godot), avec une intégration audio dans Wwise. La vidéo montre le jeu et la session Wwise en direct."
+   "description_fr": "Musique adaptative, effets sonores et mixage de GRAB GRAB, jeu d’arène multijoueur en 3D en développement (Godot), avec une intégration audio dans Wwise. La vidéo est une démo de gameplay avec le son actuel."
   },
   {
    "page": "mellerio-talisman",
