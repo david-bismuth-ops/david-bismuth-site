@@ -299,7 +299,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   border-radius: 50%;
   transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.3s;
 }
-.st-play svg { width: 38%; height: 38%; margin-left: 8%; fill: var(--paper); }
+.st-play svg { display: block; width: 40%; height: 40%; fill: var(--paper); }
 .st-play:hover { transform: scale(1.08); background: rgba(255, 255, 255, 0.14); }
 .st-play:focus-visible { outline-offset: 4px; }
 
